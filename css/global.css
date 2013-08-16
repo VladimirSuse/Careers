@@ -45,4 +45,11 @@ table.dataTable tr.even td.sorting_1{
 	float:left;
 	display:inline-block;
 	margin-left: 1em;
+	cursor:pointer;
+}
+.labels{
+	text-align: right;
+}
+form{
+	text-align: left;
 }

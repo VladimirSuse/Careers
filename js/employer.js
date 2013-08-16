@@ -35,3 +35,10 @@ $('#table-switch-view').click(function(){
 			break;
 	}
 });
+
+//handler for clicking add employer
+$('#add-employer').click(function(){
+	$('.topmenu').hide();
+	$('#main-table').hide();
+	$('#employer-form').fadeIn();
+});
