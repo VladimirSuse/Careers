@@ -1,0 +1,48 @@
+/*
+We highly recommend you use SASS and write your custom styles in sass/_custom.scss.
+However, this blank file is available if you prefer
+*/
+.panel{
+	border: #BFBFBF solid 1px;
+	border-radius: 1em;
+	padding:2em;
+	margin:1em;
+	text-align:center;
+	box-shadow: 2px 3px 5px #D8E6F2;
+}
+.navbar a:hover{
+	background-color: #86B2D9;
+}
+table.dataTable tr.odd, table.dataTable tr.odd td.sorting_1, table.dataTable tr.even, table.dataTable tr.even, tr.odd td.sorting_1,tr.even td.sorting_1 {
+	font-size: 14px;
+	font-weight:normal;
+}	
+table.dataTable tr.odd, table.dataTable tr.odd td.sorting_1, table.dataTable tr.even, table.dataTable tr.even {
+    background-color: white;
+}
+table.dataTable tr.even{
+	background-color:#F0F7FF;
+}
+table.dataTable tr.odd td.sorting_1{
+	background: white;
+}
+table.dataTable tr.even td.sorting_1{
+	background: #F0F7FF;
+}
+.table-button{
+	margin-top:1.5em;
+	margin-left:1em;
+	float:right;
+}
+.dataTables_filter{
+	margin-bottom:1em;
+}
+
+.dataTables_filter input{
+	border-radius: 10px;
+}
+.topmenu{
+	float:left;
+	display:inline-block;
+	margin-left: 1em;
+}
