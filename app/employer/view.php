@@ -1,5 +1,5 @@
 <div class='row'>
-    <h3><i class="icon-users" title=".icon-users"></i><?= $page_title ?></h3>
+    <div  class="page-title"><i class="icon-users"></i><?= $page_title ?></div>
     <div class="topmenu fairs-button icon-left entypo icon-user-add metro medium primary btn" id="add-employer"><a>Add an Employer</a></div>
     <div class="topmenu fairs-button icon-left entypo icon-arrow-left metro medium primary btn" id="back-to-table"><a>Back</a></div>
 </div>

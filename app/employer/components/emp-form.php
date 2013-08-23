@@ -89,111 +89,128 @@
 				</div>
 			</div>
 			<div class="row" id="new-form">
-			<form id="contact_form" action="post">		
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_first_name">First Name</label>
+				<form id="contact_form" action="post">		
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_first_name">First Name</label>
+						</div>
+						<div class="thirteen columns">
+							<input type="text" class="contact-input" id="contact_first_name" name="first_name">
+						</div>
 					</div>
-					<div class="thirteen columns">
-						<input type="text" class="contact-input" id="contact_first_name" name="first_name">
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_last_name">Last Name</label>
+						</div>
+						<div class="thirteen columns">
+							<input type="text" class="contact-input" id="contact_last_name" name="last_name">
+						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_last_name">Last Name</label>
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_street">Main Address</label>
+						</div>
+						<div class="thirteen columns">
+							<input type="text" class="contact-input" id="contact_street" name="street">
+						</div>
 					</div>
-					<div class="thirteen columns">
-						<input type="text" class="contact-input" id="contact_last_name" name="last_name">
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_street2">Alternate Address</label>
+						</div>
+						<div class="thirteen columns">	
+							<input type="text" class="contact-input" id="contact_street2" name="street2">
+						</div>	
 					</div>
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_street">Main Address</label>
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_postal_code">Postal Code</label>
+						</div>
+						<div class="thirteen columns">	
+							<input type="text" class="contact-input" id="contact_postal_code" name="postal_code">
+						</div>	
 					</div>
-					<div class="thirteen columns">
-						<input type="text" class="contact-input" id="contact_street" name="street">
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_province">Province</label>
+						</div>
+						<div class="thirteen columns">
+							<input type="text" class="contact-input" id="contact_province" name="province">
+						</div>	
 					</div>
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_street2">Alternate Address</label>
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_city">City</label>
+						</div>
+						<div class="thirteen columns">
+							<input type="text" class="contact-input" id="contact_city" name="city">
+						</div>	
 					</div>
-					<div class="thirteen columns">	
-						<input type="text" class="contact-input" id="contact_street2" name="street2">
-					</div>	
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_postal_code">Postal Code</label>
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_country">Country</label>
+						</div>
+						<div class="thirteen columns">
+							<input type="text" class="contact-input" id="contact_country" name="country">
+						</div>	
 					</div>
-					<div class="thirteen columns">	
-						<input type="text" class="contact-input" id="contact_postal_code" name="postal_code">
-					</div>	
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_province">Province</label>
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_phone">Phone Number</label>
+						</div>
+						<div class="thirteen columns">
+							<input type="text" class="contact-input" id="contact_phone" name="phone">
+						</div>	
 					</div>
-					<div class="thirteen columns">
-						<input type="text" class="contact-input" id="contact_province" name="province">
-					</div>	
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_city">City</label>
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_extension">Extension</label>
+						</div>
+						<div class="thirteen columns">
+							<input type="text" class="contact-input" id="contact_extension" name="extension">
+						</div>	
 					</div>
-					<div class="thirteen columns">
-						<input type="text" class="contact-input" id="contact_city" name="city">
-					</div>	
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_country">Country</label>
+					<div class="row">
+						<div class="seven columns labels">
+							<label for="contact_email">Email Address</label>
+						</div>
+						<div class="thirteen columns">
+							<input type="text" class="contact-input" id="contact_email" name="email">
+						</div>	
 					</div>
-					<div class="thirteen columns">
-						<input type="text" class="contact-input" id="contact_country" name="country">
-					</div>	
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_phone">Phone Number</label>
-					</div>
-					<div class="thirteen columns">
-						<input type="text" class="contact-input" id="contact_phone" name="phone">
-					</div>	
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_extension">Extension</label>
-					</div>
-					<div class="thirteen columns">
-						<input type="text" class="contact-input" id="contact_extension" name="extension">
-					</div>	
-				</div>
-				<div class="row">
-					<div class="seven columns labels">
-						<label for="contact_email">Email Address</label>
-					</div>
-					<div class="thirteen columns">
-						<input type="text" class="contact-input" id="contact_email" name="email">
-					</div>	
-				</div>
-				<div class="row">
-			       	<div class="seven columns labels" style="margin-bottom:2.05em">
-			        	<label for="billing_contact">Is Billing Contact</label>
-			        </div>
-			        <div class="thirteen columns">
-				        <div class="buttonset">
-				            <input type='radio' name='billing_contact' id='billing_contact-yes' value='1'><label for='billing_contact-yes'>Yes</label>
-				            <input type='radio' name='billing_contact' id='billing_contact-no' checked='checked' value='0'><label for='billing_contact-no'>No</label>
+					<div class="row">
+				       	<div class="seven columns labels" style="margin-bottom:2.05em">
+				        	<label for="billing_contact">Is Billing Contact</label>
 				        </div>
-				    </div>    
-			    </div>
-			    <div class="row text-center">
-				    <div id="append-contact" class="metro primary fairs-button icon-left entypo icon-plus small btn"><a>Add Contact</a></div>
-				</div>									
-			</form>
-		</div>
+				        <div class="thirteen columns">
+					        <div class="buttonset">
+					            <input type='radio' name='billing_contact' id='billing_contact-yes' value='1'><label for='billing_contact-yes'>Yes</label>
+					            <input type='radio' name='billing_contact' id='billing_contact-no' checked='checked' value='0'><label for='billing_contact-no'>No</label>
+					        </div>
+					    </div>    
+				    </div>
+				    <div class="row text-center">
+				    	<div class="fairs-button icon-left entypo icon-arrow-left metro medium primary btn" id="back-to-contact-main"><a>Back</a></div>
+					    <div id="append-contact" class="metro primary fairs-button icon-left entypo icon-plus medium btn"><a>Add Contact</a></div>
+					</div>									
+				</form>
+			</div>
+			<div class="row" id="contact-table-container">	
+				<div class="row" id="contact-table-title">Viewing All Direct Contacts</div>
+				<div class="row" style="text-align:left;margin-bottom:1em">
+					<div id="contact-form-hide" class="metro primary fairs-button icon-left entypo icon-arrow-left small btn"><a>Back To form</a></div>
+					<div id="contact-form-hide" class="metro primary fairs-button icon-left entypo icon-arrows-ccw small btn"><a>toggle billing/direct contacts</a></div>
+				</div>
+				<table id="contact-table">
+					<thead>
+						<th scope="col">Contact Name</th>
+						<th scope="col">Email</th>
+						<th scope="col"></th>
+					</thead>
+					<tbody>
+					</tbody>	
+				</table>	
+			</div>
 		</div>	
 	</div>	
 </div>	

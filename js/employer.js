@@ -21,11 +21,6 @@ $(document).ready(function(){
         }]
 	});
 
-	$('#employer-table-abridged').dataTable({
-		"iDisplayLength": 15,
-        "aaSorting": [[0, "asc"]],
-	});
-
 	$('.loader').hide();
 	$('#emp-table-container').fadeIn();
 });
@@ -48,8 +43,7 @@ $('#new-form-show').click(function(){
 
 //handler for when the user clicks "view list of existting contacts"
 $('#contact-table-show').click(function(){
-		$('#new-form').hide();
-		$('#anc-title').hide();
+		$('#contact-details-container').hide();
 		$('#contact-form-loader').show();
 		$.ajax({
 		type: "post",
@@ -97,6 +91,12 @@ $('#back-to-table').click(function(){
 	$('#main-table').fadeIn();
 });
 
+//handler for when the user clcks back on the new contact form
+$('#back-to-contact-main').click(function(){
+	$('#new-form').hide();
+	$('#contact-details-container').fadeIn();
+});
+
 //handler for when the user clicks the edit button
 $('.view-edit').on('click', function(){
     $('.emp-edit-input').val('');
@@ -127,6 +127,20 @@ $('.view-edit').on('click', function(){
 			$('#back-to-table').fadeIn();
         }
     });
+});
+
+//handler for when the user clicks add contact on the new contact form
+$('#append-contact').click(function(){
+	var option = "<option ";
+	$('.contact-input').each(function(i){
+		option += "data-" + $(this).attr('name') + "='" + $(this).val() +"' ";
+	});
+	($('#billing_contact-yes').attr('checked') == 'checked' ? option+= "data-conact-type='1' " :  option+= "data-contact-type='0' ");
+	option+= "selected>" + $('#contact_first_name').val() +" "+ $('#contact_last_name').val() + "</option>";
+	$('#contacts').append(option);
+	$('.chzn-select').chosen();
+    $('.chzn-select').trigger('liszt:updated');
+    $('#back-to-contact-main').click();
 });
 
 function toggleInputStyle(elem){

@@ -6,8 +6,8 @@
 			<th scope='col'>Department Name</th>
 			<th scope='col'>Website</th>
 			<th scope="col">HST Exempt</th>
-			<th scope="col">PST Exempt</th>
-			<th scope-'col'></th>
+			<th scope="col" >PST Exempt</th>
+			<th scope-'col' ></th>
 		</thead>	
 		<tobdy>
 			<?php

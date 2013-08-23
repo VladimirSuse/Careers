@@ -1,6 +1,6 @@
 <div class="row">
 	<h3 style="margin-bottom:2em" id="emp-edit-title"></h3>
-	<div class="ten columns">
+	<div class="centered fourteen columns">
 		<div class="row" style="padding:1em;border:solid #C7E3FF 1px;">	
 			<div class="section-title">Employer Details</div>
 			<form id="emp_edit_form" action="post">
