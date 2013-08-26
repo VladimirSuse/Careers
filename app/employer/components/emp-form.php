@@ -180,12 +180,12 @@
 					</div>
 					<div class="row">
 				       	<div class="seven columns labels" style="margin-bottom:2.05em">
-				        	<label for="billing_contact">Is Billing Contact</label>
+				        	<label for="billing_contact">Contact Type</label>
 				        </div>
 				        <div class="thirteen columns">
 					        <div class="buttonset">
-					            <input type='radio' name='billing_contact' id='billing_contact-yes' value='1'><label for='billing_contact-yes'>Yes</label>
-					            <input type='radio' name='billing_contact' id='billing_contact-no' checked='checked' value='0'><label for='billing_contact-no'>No</label>
+					            <input type='radio' name='billing_contact' id='billing_contact-yes' value='1'><label for='billing_contact-yes'>Billing</label>
+					            <input type='radio' name='billing_contact' id='billing_contact-no' checked='checked' value='0'><label for='billing_contact-no'>Direct</label>
 					        </div>
 					    </div>    
 				    </div>

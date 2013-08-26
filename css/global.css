@@ -29,6 +29,35 @@ table.dataTable tr.odd td.sorting_1{
 table.dataTable tr.even td.sorting_1{
 	background: #F0F7FF;
 }
+.list-container{
+	padding:2em 0.2em;
+	border: solid #C7E3FF 1px;
+}
+.contact-list{
+	min-height:2em;
+}
+li.ui-state-default{
+	width:75%;
+	display:inline-block;
+	margin-bottom:0.5em;
+	cursor:move;
+	float:center;
+	padding:0.3em;
+	font-weight:bold;
+	background: #feffff; /* Old browsers */
+	background: -moz-linear-gradient(top,  #feffff 0%, #7e97af 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feffff), color-stop(100%,#7e97af)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #feffff 0%,#7e97af 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #feffff 0%,#7e97af 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #feffff 0%,#7e97af 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #feffff 0%,#7e97af 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#7e97af',GradientType=0 ); /* IE6-9 */
+}
+.autocomplete{
+	width:75%;
+	padding:6px;
+	margin-bottom: 2em;
+}
 .table-button{
 	margin-top:1.5em;
 	margin-left:1em;
@@ -71,18 +100,15 @@ table.dataTable tr.even td.sorting_1{
 form{
 	text-align: left;
 }
-.emp-input, .emp-edit-input, .contact-input{
+.emp-input, .edit-emp-input, .edit-contact-input, .contact-input{
 	width:100%;
 	font-size:16px;
 	font-weight: normal;
 }
-.emp-input, .contact-input{
+.emp-input, .edit-emp-input, .edit-contact-input, .contact-input{
 	border:1px solid #CCC;
 	padding:6px;
 	margin-bottom:10px;
-}
-.emp-edit-input{
-	border:0;
 }
 .buttonset .ui-button.ui-state-default .ui-button-text {
     color: white;
@@ -108,28 +134,35 @@ form{
 	color: #5c86b0;
 	font-size:22px;
 }
+#dir-contacts-title{
+	bottom:2.6em;
+	right:5.0em;
+	font-size:18px;
+}
+#bil-contacts-title{
+	bottom:2.6em;
+	right:5.0em;
+	font-size:18px;
+}
 #step-one{
 	bottom:1.5em;
-	right:11.3em;
+	right:11em;
 }
 #step-two{
 	bottom:1.5em;
-	right:7em;
+	right:6.8em;
 }
 
-.section-title{
-	position:relative;
-	display:inline-block;
-	bottom:1.9em;
-	right:9em;
-	padding-left:0.5em;
-	padding-right:0.5em;
-	z-index:10;
-	background-color:white;
-	text-align:left;
-	text-decoration: italic;
-	font-weight:bold;
+#emp-edit-title{
+	bottom:1.5em;
+	right:12.3em;
 }
+
+#emp-contacts{
+	bottom:1.5em;
+	right:12em;
+}
+
 .ui-button-text {
    font-size: 16px !important;
 }
@@ -143,10 +176,10 @@ form{
 	padding:0 !important;
 	min-height: 3em;
 }
-#contact-table-show, #new-form-show{
+#contact-table-show, #new-form-show, #edit-new-form-show, #contact-lists-show{
 	cursor:pointer;
 	color:#5c86b0;
 }
-#toc-title, #new-form, #anc-title, #contact-table-container, #back-to-table, #contact-form-loader{
+#toc-title, #new-form, #anc-title, #contact-table-container, #edit-new-form, #back-to-table, #contact-form-loader{
 	display:none;
 }

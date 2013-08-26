@@ -1,7 +1,10 @@
 $(document).ready(function(){
-	//initialze buttonset
+	//initialze buttonset, chosen, sortable
 	$('.buttonset').buttonset();
 	$('.chzn-select').chosen();
+	$('.sortable').sortable({
+		connectWith: '.sortable'
+	});
 	//initalize employer table
 	$('#employer-table').dataTable({
 		"iDisplayLength": 15,
@@ -20,7 +23,6 @@ $(document).ready(function(){
             "aTargets": [1,2]
         }]
 	});
-
 	$('.loader').hide();
 	$('#emp-table-container').fadeIn();
 });
@@ -40,6 +42,16 @@ $('#new-form-show').click(function(){
 	$('#new-form').fadeIn();
 	$('#anc-title').css('display','inline-block').fadeIn();
 });	
+
+$('#edit-new-form-show').click(function(){
+	$('#edit-contact-details-container').hide();
+	$('#edit-new-form').fadeIn();
+});
+
+$('#edit-back-to-contact-main').click(function(){
+	$('#edit-new-form').hide();
+	$('#edit-contact-details-container').fadeIn();
+});
 
 //handler for when the user clicks "view list of existting contacts"
 $('#contact-table-show').click(function(){
@@ -101,26 +113,47 @@ $('#back-to-contact-main').click(function(){
 $('.view-edit').on('click', function(){
     $('.emp-edit-input').val('');
     $('#emp-edit-form radio').removeAttr('checked');
+    $('.contact-list').empty();
     $.ajax({
         type: 'post',
         dataType: 'json',
         url: 'index.php?page=view-edit',
         data: 'id=' + $(this).attr('data-emp-id'),
         success: function(data){
-        	$('#edit_emp_id').val(data['emp_info'][0].id);
-        	$('#edit_emp_org_name_en').val(data['emp_info'][0].org_name_en);
-        	$('#edit_emp_org_name_fr').val(data['emp_info'][0].org_name_fr);
-        	$('#edit_emp_dep_name_en').val(data['emp_info'][0].dep_name_en);
-        	$('#edit_emp_dep_name_fr').val(data['emp_info'][0].dep_name_fr);
-        	$('#edit_emp_website_en').val(data['emp_info'][0].website_en);
-        	$('#edit_emp_website_fr').val(data['emp_info'][0].website_fr);
+        	//populate text input fields
+        	$('.edit-emp-input').each(function(){
+        		$('#edit_emp_' + $(this).attr('name')).val(data['emp_info'][0][$(this).attr('name')]);
+        		toggleInputStyle($(this));
+        	});
+        	
+        	//set contact type buttons	
         	(data['emp_info'][0].pst_exempt == '1' ? $('#edit_pst_exempt-yes').attr('checked', 'checked') : $('#edit_pst_exempt-no').attr('checked', 'checked'));
         	(data['emp_info'][0].hst_exempt == '1' ? $('#edit_hst_exempt-yes').attr('checked', 'checked') : $('#edit_hst_exempt-no').attr('checked', 'checked'));
+        	
+        	//populate direcct contact list
+        	if(data['dir_contacts'].length > 0){
+	        	$.each(data['dir_contacts'], function(){
+	        		$('#direct-contact-list').append("<li class='ui-state-default' data-contact-id='"+ this.id + "''>" + this.first_name+" "+ this.last_name+"</li>");
+	        	});
+        	}
+        	else{
+				$('#direct-contact-list').append("no contacts found");
+        	}
+        	if(data['bil_contacts'].length > 0){
+	        	$.each(data['bil_contacts'], function(){
+	        		$('#billing-contact-list').append("<li class='ui-state-default' data-contact-id='"+ this.id + "''>" + this.first_name+" "+ this.last_name+"</li>");
+	        	});
+        	}
+        	else{
+        		$('#billing-contact-list').append("no contacts found");
+        	}
+        	$('#available-billing-contacts').autocomplete({
+        		source: "available-billing-contacts"
+        	});
+        	//reiniialize jquery ui and fade in the proper divs
         	$('.buttonset').buttonset();
-      	    $('.emp-edit-input').each(function(i){
-				toggleInputStyle($(this));
-			});
-  	      	$('#emp-edit-title').html('Viewing ' + data['emp_info'][0].org_name_en);
+        	$('.sortable').sortable();
+  	      	$('#employer-title').html('Viewing ' + data['emp_info'][0].org_name_en);
   	      	$('.topmenu').hide();
 			$('#main-table').hide();
 			$('#emp-edit-form').fadeIn();
@@ -141,6 +174,19 @@ $('#append-contact').click(function(){
 	$('.chzn-select').chosen();
     $('.chzn-select').trigger('liszt:updated');
     $('#back-to-contact-main').click();
+});
+
+//handler for when a user clicks add contact in the view-edit window
+$('#edit-append-contact').click(function(){
+	$('#edit-back-to-contact-main').click();	
+	var item = "<li class='ui-state-default'>"+$('#edit_contact_first_name').val() +" "+ $('#edit_contact_last_name').val() + "</li>";
+	if($('#edit_billing_contact-yes').attr('checked') == 'checked' ){
+		$('#direct-contact-list').append(item).$('.sortable').sortable().show('slow');
+	}
+	else{
+		$('#billing-contact-list').append(item).$('.sortable').sortable().show('slow');
+	}
+	$('.edit-contact-input').val('');Vla
 });
 
 function toggleInputStyle(elem){
