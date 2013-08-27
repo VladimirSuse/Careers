@@ -1,10 +1,7 @@
 $(document).ready(function(){
-	//initialze buttonset, chosen, sortable
-	$('.buttonset').buttonset();
+	//initialze buttonset, chosen
 	$('.chzn-select').chosen();
-	$('.sortable').sortable({
-		connectWith: '.sortable'
-	});
+	$('.buttonset').buttonset();
 	//initalize employer table
 	$('#employer-table').dataTable({
 		"iDisplayLength": 15,
@@ -87,11 +84,6 @@ $('#contact-table-show').click(function(){
 	});
 });
 
-//handler for when a user nevaigates awaay from an employer form field
-$('.emp-input, .emp-edit-input').blur(function(){
-	toggleInputStyle($(this));
-});
-
 //handler for something
 $('#back-to-table').click(function(){
 	$('.emp-input').val('');
@@ -123,36 +115,39 @@ $('.view-edit').on('click', function(){
         	//populate text input fields
         	$('.edit-emp-input').each(function(){
         		$('#edit_emp_' + $(this).attr('name')).val(data['emp_info'][0][$(this).attr('name')]);
-        		toggleInputStyle($(this));
         	});
         	
         	//set contact type buttons	
         	(data['emp_info'][0].pst_exempt == '1' ? $('#edit_pst_exempt-yes').attr('checked', 'checked') : $('#edit_pst_exempt-no').attr('checked', 'checked'));
         	(data['emp_info'][0].hst_exempt == '1' ? $('#edit_hst_exempt-yes').attr('checked', 'checked') : $('#edit_hst_exempt-no').attr('checked', 'checked'));
         	
-        	//populate direcct contact list
-        	if(data['dir_contacts'].length > 0){
+        	//populate dir contact lists
+			$('.chzn-select').empty();
+			if(data['dir_contacts'].length > 0){
 	        	$.each(data['dir_contacts'], function(){
-	        		$('#direct-contact-list').append("<li class='ui-state-default' data-contact-id='"+ this.id + "''>" + this.first_name+" "+ this.last_name+"</li>");
+	        		$('#dir-contacts-select').append("<option data-contact-id='"+this.id+"' selected>" +this.first_name + " " + this.last_name + "</option>");
 	        	});
         	}
-        	else{
-				$('#direct-contact-list').append("no contacts found");
-        	}
+        	$.each(data['all_dir_contacts'], function(){
+        		//if the contact option is not already appended
+        		if($('#dir-contacts-select > option[data-contact-id="'+this.id+'"]').length === 0){
+        			$('#dir-contacts-select').append("<option data-contact-id='"+this.id+"'>" +this.first_name + " " + this.last_name + "</option>");
+        		}
+	        });
+        	//populate billing contact lists
         	if(data['bil_contacts'].length > 0){
 	        	$.each(data['bil_contacts'], function(){
-	        		$('#billing-contact-list').append("<li class='ui-state-default' data-contact-id='"+ this.id + "''>" + this.first_name+" "+ this.last_name+"</li>");
+	        		$('#bil-contacts-select').append("<option data-contact-id='"+this.id+"' selected>" +this.first_name + " " + this.last_name + "</option>");
 	        	});
         	}
-        	else{
-        		$('#billing-contact-list').append("no contacts found");
-        	}
-        	$('#available-billing-contacts').autocomplete({
-        		source: "available-billing-contacts"
+        	$.each(data['all_bil_contacts'], function(){
+		        if($('#bil-contacts-select > option[data-contact-id="'+this.id+'"]').length === 0){
+	        		$('#bil-contacts-select').append("<option data-contact-id='"+this.id+"'>" +this.first_name + " " + this.last_name + "</option>");
+	        	}		
         	});
         	//reiniialize jquery ui and fade in the proper divs
         	$('.buttonset').buttonset();
-        	$('.sortable').sortable();
+  	      	$('.chzn-select').chosen().trigger('liszt:updated');
   	      	$('#employer-title').html('Viewing ' + data['emp_info'][0].org_name_en);
   	      	$('.topmenu').hide();
 			$('#main-table').hide();
@@ -171,29 +166,17 @@ $('#append-contact').click(function(){
 	($('#billing_contact-yes').attr('checked') == 'checked' ? option+= "data-conact-type='1' " :  option+= "data-contact-type='0' ");
 	option+= "selected>" + $('#contact_first_name').val() +" "+ $('#contact_last_name').val() + "</option>";
 	$('#contacts').append(option);
-	$('.chzn-select').chosen();
-    $('.chzn-select').trigger('liszt:updated');
+	$('.chzn-select').chosen().trigger('liszt:updated');
     $('#back-to-contact-main').click();
 });
 
-//handler for when a user clicks add contact in the view-edit window
+//handler for when the user clicks add contact on the view edit form
 $('#edit-append-contact').click(function(){
-	$('#edit-back-to-contact-main').click();	
-	var item = "<li class='ui-state-default'>"+$('#edit_contact_first_name').val() +" "+ $('#edit_contact_last_name').val() + "</li>";
-	if($('#edit_billing_contact-yes').attr('checked') == 'checked' ){
-		$('#direct-contact-list').append(item).$('.sortable').sortable().show('slow');
+	if($('#edit_billing_contact-yes').attr('checked') == 'checked'){
+		$('#bil-contacts-select').append("<option data-contact-id='"+this.id+"'>" +this.first_name + " " + this.last_name + "</option>");
 	}
 	else{
-		$('#billing-contact-list').append(item).$('.sortable').sortable().show('slow');
-	}
-	$('.edit-contact-input').val('');Vla
-});
 
-function toggleInputStyle(elem){
-	if(elem.val() == ""){
-		elem.css('border','1px solid #CCC');
 	}
-	else{
-		elem.css('border','none');
-	}
-}
+	$('.chzn-select').chosen().trigger('liszt:updated');
+});

@@ -81,139 +81,133 @@
 		</div>
 		<div class='row' style="margin-bottom:2em">
 		</div>
-		<div class='row' style="padding:1em;border:solid #C7E3FF 1px;">
-			<div class="emp-step" id="emp-contacts">Employer Contacts</div>
-			<div class="row" id="edit-contact-details-container">
-				<p><span id="edit-new-form-show">Add a new contact</span></p>
-				<div class="row" style="margin-top:2em">
-					<div class = "ten columns list-container">
-						<div class="emp-step" id="dir-contacts-title">Direct Contacts</div>
-						<div class="row">
-							<input class="autocomplete" data-source="index.php?page=get-direct-contacts" id="available-direct-contacts">
-						</div>
-						<ul class="contact-list sortable" id='direct-contact-list'>
-						</ul>	
-					</div>
-					<div class= "ten columns list-container">
-						<div class="emp-step" id="bil-contacts-title">Billing Contacts</div>
-						<div class="row">
-							<input class="autocomplete" data-source="index.php?page=get-billing-contacts" id="available-billing-contacts">
-						</div>	
-						<ul class="contact-list sortable" id='billing-contact-list'>
-						</ul>
-					</div>
+		<div class="row" id="edit-contact-details-container">
+			<div class="row" style="margin-top:2em">
+				<div class = "ten columns list-container">
+					<div class="emp-step" id="dir-contacts-title">Direct Contacts</div>
+					<div class="row">
+						<select class="chzn-select" id='dir-contacts-select' multiple></select>
+					</div>	
+				</div>
+				<div class= "ten columns list-container">
+					<div class="emp-step" id="bil-contacts-title">Billing Contacts</div>
+					<div class="row">
+						<select class="chzn-select" id='bil-contacts-select' multiple></select>
+					</div>	
 				</div>
 			</div>
-			<div class="row" id="edit-new-form">
-				<form id="edit_contact_form">		
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="edit_contact_first_name">First Name</label>
-						</div>
-						<div class="thirteen columns">
-							<input type="text" class="edit-contact-input" id="edit_contact_first_name" name="first_name">
-						</div>
+			<div class="btn metro medium primary icon-left fairs-button entypo icon-user-add" id="edit-new-form-show" style="margin-top:1em"><a>Add a new contact</a></div>
+		</div>
+		<div class="row" id="edit-new-form" style="padding:1em;border:solid #C7E3FF 1px;">
+			<div class="emp-step" id="new-contact-edit-title">Add New Contact</div>
+			<div class='row' style="margin-bottom:2em">
+			</div>
+			<form id="edit_contact_form">		
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="edit_contact_first_name">First Name</label>
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="edit_contact_last_name">Last Name</label>
-						</div>
-						<div class="thirteen columns">
-							<input type="text" class="edit-contact-input" id="edit_contact_last_name" name="last_name">
-						</div>
+					<div class="thirteen columns">
+						<input type="text" class="edit-contact-input" id="edit_contact_first_name" name="first_name">
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="edit_contact_street">Main Address</label>
-						</div>
-						<div class="thirteen columns">
-							<input type="text" class="edit-contact-input" id="edit_contact_street" name="street">
-						</div>
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="edit_contact_last_name">Last Name</label>
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="edit_contact_street2">Alternate Address</label>
-						</div>
-						<div class="thirteen columns">	
-							<input type="text" class="edit-contact-input" id="edit_contact_street2" name="street2">
-						</div>	
+					<div class="thirteen columns">
+						<input type="text" class="edit-contact-input" id="edit_contact_last_name" name="last_name">
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="contact_postal_code">Postal Code</label>
-						</div>
-						<div class="thirteen columns">	
-							<input type="text" class="edit-contact-input" id="edit_contact_postal_code" name="postal_code">
-						</div>	
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="edit_contact_street">Main Address</label>
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="edit_contact_province">Province</label>
-						</div>
-						<div class="thirteen columns">
-							<input type="text" class="edit-contact-input" id="edit_contact_province" name="province">
-						</div>	
+					<div class="thirteen columns">
+						<input type="text" class="edit-contact-input" id="edit_contact_street" name="street">
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="edit_contact_city">City</label>
-						</div>
-						<div class="thirteen columns">
-							<input type="text" class="edit-contact-input" id="edit_contact_city" name="city">
-						</div>	
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="edit_contact_street2">Alternate Address</label>
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="contact_country">Country</label>
-						</div>
-						<div class="thirteen columns">
-							<input type="text" class="edit-contact-input" id="edit_contact_country" name="country">
-						</div>	
+					<div class="thirteen columns">	
+						<input type="text" class="edit-contact-input" id="edit_contact_street2" name="street2">
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="contact_postal_code">Postal Code</label>
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="edit_contact_phone">Phone Number</label>
-						</div>
-						<div class="thirteen columns">
-							<input type="text" class="edit-contact-input" id="edit_contact_phone" name="phone">
-						</div>	
+					<div class="thirteen columns">	
+						<input type="text" class="edit-contact-input" id="edit_contact_postal_code" name="postal_code">
+					</div>	
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="edit_contact_province">Province</label>
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="contact_extension">Extension</label>
-						</div>
-						<div class="thirteen columns">
-							<input type="text" class="edit-contact-input" id="edit_contact_extension" name="extension">
-						</div>	
+					<div class="thirteen columns">
+						<input type="text" class="edit-contact-input" id="edit_contact_province" name="province">
+					</div>	
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="edit_contact_city">City</label>
 					</div>
-					<div class="row">
-						<div class="seven columns labels">
-							<label for="edit_contact_email">Email Address</label>
-						</div>
-						<div class="thirteen columns">
-							<input type="text" class="edit-contact-input" id="edit_contact_email" name="email">
-						</div>	
+					<div class="thirteen columns">
+						<input type="text" class="edit-contact-input" id="edit_contact_city" name="city">
+					</div>	
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="contact_country">Country</label>
 					</div>
-					<div class="row">
-				       	<div class="seven columns labels" style="margin-bottom:2.05em">
-				        	<label for="edit_billing_contact">Contact Type</label>
+					<div class="thirteen columns">
+						<input type="text" class="edit-contact-input" id="edit_contact_country" name="country">
+					</div>	
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="edit_contact_phone">Phone Number</label>
+					</div>
+					<div class="thirteen columns">
+						<input type="text" class="edit-contact-input" id="edit_contact_phone" name="phone">
+					</div>	
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="contact_extension">Extension</label>
+					</div>
+					<div class="thirteen columns">
+						<input type="text" class="edit-contact-input" id="edit_contact_extension" name="extension">
+					</div>	
+				</div>
+				<div class="row">
+					<div class="seven columns labels">
+						<label for="edit_contact_email">Email Address</label>
+					</div>
+					<div class="thirteen columns">
+						<input type="text" class="edit-contact-input" id="edit_contact_email" name="email">
+					</div>	
+				</div>
+				<div class="row">
+			       	<div class="seven columns labels" style="margin-bottom:2.05em">
+			        	<label for="edit_billing_contact">Contact Type</label>
+			        </div>
+			        <div class="thirteen columns">
+				        <div class="buttonset">
+				            <input type='radio' name='billing_contact' id='edit_billing_contact-yes' value='1'><label for='edit_billing_contact-yes'>Billing</label>
+				            <input type='radio' name='billing_contact' id='edit_billing_contact-no' checked='checked' value='0'><label for='edit_billing_contact-no'>Direct</label>
 				        </div>
-				        <div class="thirteen columns">
-					        <div class="buttonset">
-					            <input type='radio' name='billing_contact' id='edit_billing_contact-yes' value='1'><label for='edit_billing_contact-yes'>Billing</label>
-					            <input type='radio' name='billing_contact' id='edit_billing_contact-no' checked='checked' value='0'><label for='edit_billing_contact-no'>Direct</label>
-					        </div>
-					    </div>    
-				    </div>
-				    <div class="row text-center">
-				    	<div class="fairs-button icon-left entypo icon-arrow-left metro medium primary btn" id="edit-back-to-contact-main"><a>Back</a></div>
-					    <div id="edit-append-contact" class="metro primary fairs-button icon-left entypo icon-plus medium btn"><a>Add Contact</a></div>
-					</div>									
-				</form>
-			</div>
-			<div class="row" id="edit-contact-table-container">	
-		
-			</div>
-		</div>	
+				    </div>    
+			    </div>
+			    <div class="row text-center">
+			    	<div class="fairs-button icon-left entypo icon-arrow-left metro medium primary btn" id="edit-back-to-contact-main"><a>Back</a></div>
+				    <div id="edit-append-contact" class="metro primary fairs-button icon-left entypo icon-plus medium btn"><a>Add Contact</a></div>
+				</div>									
+			</form>
+		</div>
+		<div class="row" id="edit-contact-table-container">	
+		</div>
 	</div>	
 </div>	

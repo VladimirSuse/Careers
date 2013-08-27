@@ -81,7 +81,7 @@
 		<div class='row' style="padding:1em;border:solid #C7E3FF 1px;">
 			<div class="emp-step" id="step-two">Step 2: Add Employer Contacts (Optional)</div>
 			<div class="row" id="contact-details-container">
-				<p><span id="new-form-show">Add a new contact</span> or select from a <span id="contact-table-show">list of exising contacts</span></p>
+				<p><span id="new-form-show">Add a new contact</span> or select from a list of exising contacts below</p>
 				<div class="row" id="contact-select">
 					<select class="chzn-select" data-placeholder='contacts to be added' id='contacts' multiple>
 						<option>lawl</option>
