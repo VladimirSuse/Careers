@@ -2,6 +2,8 @@
     <div  class="page-title"><i class="icon-users"></i><?= $page_title ?></div>
     <div class="topmenu fairs-button icon-left entypo icon-user-add metro medium primary btn" id="add-employer"><a>Add an Employer</a></div>
     <div class="topmenu fairs-button icon-left entypo icon-arrow-left metro medium primary btn" id="back-to-table"><a>Back</a></div>
+    <div class="success-message">Changes saved successfully.</div>
+    <div class="error-message">There was a problem making the changes, please try again.</div>
 </div>
 </div>
 <div class="content container">

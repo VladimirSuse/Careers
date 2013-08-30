@@ -1,7 +1,7 @@
 <div class="row">
 	<h3 style="margin-bottom:2em" id="employer-title"></h3>
 	<div class="centered fourteen columns">
-		<div class="row" style="padding:1em;border:solid #C7E3FF 1px;">	
+		<div class="row" style="padding:1em;border:solid #C7E3FF 1px;"  id="edit-employer-details">	
 			<div class="emp-step" id="emp-edit-title">Employer Details</div>
 			<form id="emp_edit_form">
 				<div class="row">
@@ -85,24 +85,25 @@
 			<div class="row" style="margin-top:2em">
 				<div class = "ten columns list-container">
 					<div class="emp-step" id="dir-contacts-title">Direct Contacts</div>
-					<div class="row">
-						<select class="chzn-select" id='dir-contacts-select' multiple></select>
-					</div>	
+					<ul id="direct-contacts-list" class="contacts-list">
+					</ul>	
 				</div>
 				<div class= "ten columns list-container">
 					<div class="emp-step" id="bil-contacts-title">Billing Contacts</div>
-					<div class="row">
-						<select class="chzn-select" id='bil-contacts-select' multiple></select>
-					</div>	
+					<ul id="billing-contacts-list" class="contacts-list">
+					</ul>	
 				</div>
 			</div>
-			<div class="btn metro medium primary icon-left fairs-button entypo icon-user-add" id="edit-new-form-show" style="margin-top:1em"><a>Add a new contact</a></div>
+		<div class="btn metro medium primary icon-left fairs-button entypo icon-user-add" id="edit-new-form-show" style="margin-top:1em"><a>Add a new contact</a></div>
 		</div>
 		<div class="row" id="edit-new-form" style="padding:1em;border:solid #C7E3FF 1px;">
-			<div class="emp-step" id="new-contact-edit-title">Add New Contact</div>
+			<div class="emp-step" id="edit-new-contact-title"></div>
 			<div class='row' style="margin-bottom:2em">
 			</div>
 			<form id="edit_contact_form">		
+				<div class="row">
+						<input type="hidden" class='edit-contact-input' id="edit_contact_id" name="id">
+				</div>
 				<div class="row">
 					<div class="seven columns labels">
 						<label for="edit_contact_first_name">First Name</label>

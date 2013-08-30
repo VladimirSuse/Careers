@@ -10,6 +10,22 @@ However, this blank file is available if you prefer
 	text-align:center;
 	box-shadow: 2px 3px 5px #D8E6F2;
 }
+.success-message{
+	background-color: #B5DEA6;;
+    opacity: 0.0;
+    position: fixed;
+    right: auto;
+    left:auto;
+    text-align: center;
+    top: -35px;
+    width: 100%;
+    z-index: 5;
+    display: inline;
+    padding: 10px;
+}
+.error-message{
+	display:none;
+}
 .navbar a:hover{
 	background-color: #86B2D9;
 }
@@ -33,8 +49,9 @@ table.dataTable tr.even td.sorting_1{
 	padding:2em 0.2em;
 	border: solid #C7E3FF 1px;
 }
-.contact-list{
+.contacts-list{
 	min-height:2em;
+	list-style:none;
 }
 li.ui-state-default{
 	width:75%;
@@ -67,6 +84,18 @@ li.ui-state-default{
 	margin-bottom:1em;
 }
 
+.view-edit-contact, .remove-contacts{
+	display:inline-block;
+	cursor:pointer;
+	margin-left:0.3em;
+	font-size:22px;
+}
+.view-edit-contact{
+	color:#B5DEA6;
+}
+.remove-contacts{
+	color:#DEC2A6;
+}
 .dataTables_filter input{
 	border-radius: 10px;
 }
@@ -74,6 +103,10 @@ li.ui-state-default{
 	display:inline-block;
 	font-size: 32px;
 
+}
+.styled-link{
+	color: #5c86b0;
+	cursor:pointer;
 }
 .topmenu{
 	float:right;
@@ -157,7 +190,7 @@ form{
 	right:12.3em;
 }
 
-#new-contact-edit-title{
+#edit-new-contact-title{
 	bottom:1.5em;
 	right:12.3em;
 }
