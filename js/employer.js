@@ -88,6 +88,27 @@ $('#contact-table-show').click(function(){
 
 //handler for something
 $('#back-to-table').click(function(){
+	$.ajax({
+        type: 'post',
+        dataType: 'json',
+		url:'index.php?page=refresh-emp-table',
+		success: function(data){
+			var newRows ="";
+			$.each(data['emp_info'], function(){
+				newRows += "<tr data-emp-id='"+this.id+"'>"
+				+ "<td><div>"+this.org_name_en+"</div><div>"+this.org_name_fr+"</div></td>"
+				+ "<td><div>"+this.dep_name_en+"</div><div>"+this.dep_name_fr+"</div></td>"
+				+ "<td><div>"+this.website_en+"</div><div>"+this.website_fr+"</div></td>"
+				+ "<td>" + (this.hst_exempt == 1 ? "<i class='icon-check tax-yes' title='.icon-check'></i>" : "<i class='icon-cancel tax-no' title='.icon-cancel'></i></td>")
+				+ "<td>" + (this.pst_exempt == 1 ? "<i class='icon-check tax-yes' title='.icon-check'></i>" : "<i class='icon-cancel tax-no' title='.icon-cancel'></i></td>")
+				+"<td>" +"<div data-emp-id='"+this.id+"' class='table-button fairs-button icon-left icon-calendar entypo metro primary small btn'><a>Events</a></div>"
+				+"<td>" +"<div data-emp-id='"+this.id+"' class='table-button fairs-button icon-left icon-pencil entypo view-edit metro primary small btn'><a>Edit</a></div></td>"
+				+"</tr>";
+			});
+			$('#employer-table tbody').empty().append(newRows);
+			$('#employer-table').dataTable().fnDraw();
+		}
+	});
 	$('.emp-input').val('');
 	$('.contact-input').val('');
 	$('#employer-form').hide();
@@ -104,7 +125,7 @@ $('#back-to-contact-main').click(function(){
 });
 
 //handler for when the user clicks the edit button
-$('.view-edit').on('click', function(){
+$(document).on('click', '.view-edit', function(){
     $('.emp-edit-input').val('');
     $('#emp-edit-form radio').removeAttr('checked');
     $('.contacts-list').empty();
@@ -117,6 +138,7 @@ $('.view-edit').on('click', function(){
         	//populate text input fields
         	$('.edit-emp-input').each(function(){
         		$('#edit_emp_' + $(this).attr('name')).val(data['emp_info'][0][$(this).attr('name')]);
+        		$('#edit_emp_' + $(this).attr('name')).attr('data-current-value',data['emp_info'][0][$(this).attr('name')]);
         	});
         	
         	//set contact type buttons	
@@ -162,7 +184,7 @@ $('.view-edit-contact').live('click', function(){
 			//populate text input fields
         	$('.edit-contact-input').each(function(){
         		$('#edit_contact_' + $(this).attr('name')).val(data[0][$(this).attr('name')]);
-        		$('#edit_contact_' + $(this).attr('name')).attr('data-default-value',data[0][$(this).attr('name')]);
+        		$('#edit_contact_' + $(this).attr('name')).attr('data-current-value',data[0][$(this).attr('name')]);
         	});
         	(type == 'billing' ? $('#edit_billing_contact-yes').attr('checked', 'checked') : $('#edit_billing_contact-no').attr('checked', 'checked'));
         	$('#edit-new-contact-title').html('Viewing ' + data[0].first_name + " " + data[0].last_name).css('float','center');
@@ -175,15 +197,31 @@ $('.view-edit-contact').live('click', function(){
 
 //handler for when the user edits a contact field
 $('.edit-contact-input').blur(function(){
-	if($(this).val() != $(this).attr('data-default-value') ){
+	if($(this).val() != $(this).attr('data-current-value') ){
+		$(this).attr('data-current-value', $(this).val());
 		$.ajax({
 			type:'post',
 			url:'index.php?page=edit-contact-details',
 			data:'id=' + $('#edit_contact_id').val() + "&" + $(this).attr('name') + "=" + $(this).val(),
 			success: function(data){
 				if(data > 0){
-					showMessage('Changes saved successfully.');
+					showMessage('Contact changes saved successfully.');
 				}
+			}
+		});
+	}
+});
+
+//handler for when the user edits an field
+$('.edit-emp-input').blur(function(){
+	if($(this).val() != $(this).attr('data-current-value') ){
+		$(this).attr('data-current-value', $(this).val());
+		$.ajax({
+			type:'post',
+			url:'index.php?page=edit-employer-details',
+			data:'id=' + $('#edit_emp_id').val() + "&" + $(this).attr('name') + "=" + $(this).val(),
+			success: function(data){
+					showMessage('Employer changes saved successfully.');
 			}
 		});
 	}
@@ -215,5 +253,5 @@ $('#edit-append-contact').click(function(){
 
 function showMessage(message) {
     $('.success-message').text(message);
-    $('.success-message').animate({top: '10px', opacity: '1.0'}, 300, 'easeOutCubic').delay(1000).animate({top: '-35px', opacity: '0.0'}, 300, 'easeOutCubic');
+    $('.success-message').animate({top: '8px', opacity: '1.0'}, 300, 'easeOutCubic').delay(1000).animate({top: '-35px', opacity: '0.0'}, 300, 'easeOutCubic');
 }

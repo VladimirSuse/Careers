@@ -29,7 +29,7 @@ if($_GET['page'] != 'add'){
 //============================================================================================
 
 if (!isset($_GET['page'])) {
-    $data = $employer -> getAllEmployer();
+    $data = $employer -> getEventRegistrationEmployer();
     require_once 'view.php';
 } 
 else {

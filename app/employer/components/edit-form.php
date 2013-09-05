@@ -5,7 +5,7 @@
 			<div class="emp-step" id="emp-edit-title">Employer Details</div>
 			<form id="emp_edit_form">
 				<div class="row">
-						<input type="hidden" id="edit_emp_id" name="id">
+						<input type="hidden" class="edit-emp-input" id="edit_emp_id" name="id">
 				</div>
 				<div class="row">
 					<div class="seven columns labels">

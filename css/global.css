@@ -14,17 +14,22 @@ However, this blank file is available if you prefer
 	background-color: #B5DEA6;;
     opacity: 0.0;
     position: fixed;
-    right: auto;
-    left:auto;
     text-align: center;
+    right:auto;
     top: -35px;
-    width: 100%;
     z-index: 5;
-    display: inline;
+    display: inline-block;
+	left: 50%; 
     padding: 10px;
+    font-weight: bold;
 }
 .error-message{
 	display:none;
+}
+span[rel="tooltip"]{
+	color: #5c86b0;
+	font-weight:bold;
+	cursor:pointer;
 }
 .navbar a:hover{
 	background-color: #86B2D9;

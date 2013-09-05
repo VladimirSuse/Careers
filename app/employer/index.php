@@ -11,14 +11,16 @@ ini_set('display_errors', '1');
 require_once '../../includes/Employer.php';
 $employer = new Employer();
 if($_GET['page'] != 'add' && $_GET['page'] != 'contact-list' && $_GET['page'] != 'view-edit' && $_GET['page'] != 'get-direct-contacts' && $_GET['page'] != 'get-billing-contacts'
-    && $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'){
+    && $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'
+    && $_GET['page'] != 'edit-employer-details' && $_GET['page'] != 'refresh-emp-table'){
 	require_once '../../includes/header.php';
 }
 //============================================================================================
 // Header and Nav
 //============================================================================================
 if($_GET['page'] != 'add' && $_GET['page'] != 'contact-list' && $_GET['page'] != 'view-edit' && $_GET['page'] != 'get-direct-contacts' && $_GET['page'] != 'get-billing-contacts' 
-	&& $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'){
+	&& $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'
+	&& $_GET['page'] != 'edit-employer-details' && $_GET['page'] != 'refresh-emp-table'){
 	$page_title = 'Employers';
 	$icon = "icon-user";
 	$js_path = "employer.js";
@@ -56,11 +58,17 @@ else if ($_Get['page'] == 'remove-contact'){
 else if ($_GET['page'] == 'add-contact-new'){
 	
 }
+else if($_GET['page'] == 'refresh-emp-table'){
+	echo json_encode($employer -> getAllEmployer());
+} 
 else if ($_GET['page'] == 'view-edit-contact'){
 	echo json_encode($employer -> getContactDetail($_POST['id']));
 }
 else if ($_GET['page'] == 'edit-contact-details'){
 	echo $employer -> updateContactDetail($_POST, $_POST['id']);
+}
+else if ($_GET['page'] == 'edit-employer-details'){
+	echo $employer -> updateEmployer($_POST, $_POST['id']);
 }
 else if($_GET['page'] == 'get-billing-contacts'){
 	echo json_encode($employer -> getBillingContact());
@@ -81,6 +89,7 @@ else {
 // FOOTER
 //============================================================================================
 if($_GET['page'] != 'add' && $_GET['page'] != 'contact-list' && $_GET['page'] != 'view-edit' && $_GET['page'] != 'get-direct-contacts' && $_GET['page'] != 'get-billing-contacts'  
-	&& $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'){
+	&& $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'
+	&& $_GET['page'] != 'edit-employer-details' && $_GET['page'] != 'refresh-emp-table'){
 	require_once '../../includes/footer.php';
 }

@@ -13,9 +13,9 @@
 			<?php
 				foreach($data as $d){
 					echo "<tr data-emp-id='".$d['id']."'>
-							<td><div>".$d['org_name_en']."<div>".$d['org_name_fr']."</div></td>
-							<td><div>".$d['dep_name_en']."<div>".$d['dep_name_fr']."</div></td>
-							<td><div>".$d['website_en']."<div>".$d['website_fr']."</div></td>
+							<td><div>".$d['org_name_en']."</div><div>".$d['org_name_fr']."</div></td>
+							<td><div>".$d['dep_name_en']."</div><div>".$d['dep_name_fr']."</div></td>
+							<td><div>".$d['website_en']."</div><div>".$d['website_fr']."</div></td>
 							<td>".($d['hst_exempt'] == 1 ? "<i class='icon-check tax-yes' title='.icon-check'></i>" : "<i class='icon-cancel tax-no' title='.icon-cancel'></i>" )."</td>
 							<td>".($d['pst_exempt'] == 1 ? "<i class='icon-check tax-yes' title='.icon-check'></i>" : "<i class='icon-cancel tax-no' title='.icon-cancel'></i>" )."</td>
 							<td>
