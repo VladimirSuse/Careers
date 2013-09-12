@@ -18,7 +18,7 @@ $js_path = "service.js";
 //============================================================================================
 // Header and Nav
 //============================================================================================
-if($_GET['page'] != 'add'){
+if($_GET['page'] != 'view-edit' && $_GET['page'] != 'add-service' && $_GET['page'] != 'edit-service' && $_GET['page'] != 'remove-service'){
 	 require_once '../../includes/header.php';
 	 require_once '../../includes/nav.php';
 }
@@ -29,8 +29,20 @@ if($_GET['page'] != 'add'){
 //============================================================================================
 
 if (!isset($_GET['page'])) {
-    $data = $employer -> getAllEmployer();
+    $data = $employer -> getService();
     require_once 'view.php';
+}
+else if ($_GET['page'] == 'view-edit'){
+	echo json_encode($employer -> getService($_POST['id']));
+}	
+else if ($_GET['page'] == 'add-service'){
+	echo $employer -> saveService($_POST);
+}
+else if ($_GET['page'] == 'edit-service'){
+	echo $employer -> updateService($_POST ,$_POST['id']);
+}
+else if ($_GET['page'] == 'remove-service'){
+	echo $employer -> removeService($_POST['id']);
 } 
 else {
     require_once '../../includes/php/error.php';
@@ -39,6 +51,6 @@ else {
 //============================================================================================
 // FOOTER
 //============================================================================================
-if($_GET['page'] != 'add'){
+if($_GET['page'] != 'view-edit' && $_GET['page'] != 'add-service' && $_GET['page'] != 'edit-service' && $_GET['page'] != 'remove-service'){
 	 require_once '../../includes/footer.php';
 }

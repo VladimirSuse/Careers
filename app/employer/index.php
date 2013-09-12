@@ -10,12 +10,11 @@ ini_set('display_errors', '1');
 //============================================================================================
 require_once '../../includes/Employer.php';
 $employer = new Employer();
-if($_GET['page'] != 'add' && $_GET['page'] != 'contact-list' && $_GET['page'] != 'view-edit' && $_GET['page'] != 'get-direct-contacts' && $_GET['page'] != 'get-billing-contacts'
-    && $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'
-    && $_GET['page'] != 'edit-employer-details' && $_GET['page'] != 'swap-contact-type'){
-	
-	require_once '../../includes/header.php';
-}
+
+$page_title = 'Employers';
+$icon = "icon-user";
+$js_path = "employer.js";
+
 //============================================================================================
 // Header and Nav
 //============================================================================================
@@ -23,9 +22,7 @@ if($_GET['page'] != 'add' && $_GET['page'] != 'contact-list' && $_GET['page'] !=
 	&& $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'
 	&& $_GET['page'] != 'edit-employer-details' && $_GET['page'] != 'swap-contact-type'){
 	
-	$page_title = 'Employers';
-	$icon = "icon-user";
-	$js_path = "employer.js";
+	require_once '../../includes/header.php';
 	require_once '../../includes/nav.php';
 }
 //============================================================================================
