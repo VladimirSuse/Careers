@@ -83,8 +83,7 @@
 			<div class="row" id="contact-details-container">
 				<p><span id="new-form-show">Add a new contact</span> or select from a list of exising contacts below</p>
 				<div class="row" id="contact-select">
-					<select class="chzn-select" data-placeholder='contacts to be added' id='contacts' multiple>
-						<option>lawl</option>
+					<select class="chzn-select" name="contacts[]" data-placeholder='contacts to be added' id='contacts' multiple>
 					</select>	
 				</div>
 			</div>
@@ -215,5 +214,5 @@
 	</div>	
 </div>	
 <div class="row" style="margin-top:2em">
-	<div class="medium btn metro primary fairs-button icon-left entypo icon-check"><a>Add employer</a></div>
+	<div class="medium btn metro primary fairs-button icon-left entypo icon-check" id="confirm-add-emp"><a>Add employer</a></div>
 </div>	

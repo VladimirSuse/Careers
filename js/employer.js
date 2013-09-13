@@ -34,7 +34,7 @@ $('#new-form-show').click(function(){
 });	
 
 $('#edit-new-form-show').click(function(){
-	$('#edit_contact_id').val("");
+	$('.edit-contact-input').val("");
 	$('#edit-new-contact-title').html('Add A Contact');
 	$('#edit-contact-details-container').hide();
 	$('#edit-new-form').fadeIn();
@@ -177,16 +177,23 @@ $('#edit-append-contact').click(function(){
 	var valid = true;
 	$('.edit-contact-input').each(function(){
 		if($(this).attr('name') != "street2" && $(this).val() == ""){
-			valid = false;
 			$(this).css('outline-color', 'red');
-			console.log('here');
-			return false;
+			valid = false;
 		}
 		else{
 			$(this).css('outline-color', '#A3A3A3');
 		}
-
 	});
+	if(valid){
+		$.ajax({
+			type: 'post',
+			url: 'index.php?page=add-contact-new',
+			data: $('#edit-new-form').serialize() + "&employer_id=" + $('#edit_emp_id').val(),
+			success: function(data){
+
+			}
+		});
+	}
 });
 
 //handler for buttonset toggling
@@ -219,7 +226,7 @@ $('.buttonset input').click(function(){
 //handler for when the user edits a contact field
 $('.edit-contact-input').blur(function(){
 	var elem = $(this);
-	if(elem.val() != elem.attr('data-current-value') ){
+	if($('#edit_contact_id').val() != "" && elem.val() != elem.attr('data-current-value')){
 		elem.attr('data-current-value', elem.val());
 		$.ajax({
 			type:'post',
@@ -267,15 +274,28 @@ $('#append-contact').click(function(){
     $('#back-to-contact-main').click();
 });
 
-//handler for when the user clicks add contact on the view edit form
-$('#edit-append-contact').click(function(){
-	if($('#edit_billing_contact-yes').attr('checked') == 'checked'){
-		$('#bil-contacts-select').append("<option data-contact-id='"+this.id+"'>" +this.first_name + " " + this.last_name + "</option>");
-	}
-	else{
-
-	}
-	$('.chzn-select').chosen().trigger('liszt:updated');
+//handler for when the user clicks add employer on the new employer form
+$('#confirm-add-emp').click(function(){
+	//build a list of contacts string
+	var contacts = "";
+	$('.chzn-select > option:selected').each(function(){
+		for(var i = 0; i < $(this)[0].attributes.length; i++){
+			if($(this)[0].attributes[i].specified && $(this)[0].attributes[i].name != 'id' && $(this)[0].attributes[i].name != 'value'){
+				contacts += ($(this)[0].attributes[i].value + ',') ;
+			}
+		}
+		contacts = contacts.substring(0, contacts.length -1);
+		contacts+=":";
+	});
+	contacts = contacts.substring(0, contacts.length -1);
+	$.ajax({
+		type: 'post',
+		dataType: 'json',
+		url: 'index.php?page=add-employer',
+		data: $('#emp_form').serialize() + '&contacts=' + contacts,
+		success: function(data){
+		}
+	})
 });
 
 function showMessage(message) {

@@ -18,7 +18,7 @@ $js_path = "employer.js";
 //============================================================================================
 // Header and Nav
 //============================================================================================
-if($_GET['page'] != 'add' && $_GET['page'] != 'contact-list' && $_GET['page'] != 'view-edit' && $_GET['page'] != 'get-direct-contacts' && $_GET['page'] != 'get-billing-contacts' 
+if($_GET['page'] != 'add-employer' && $_GET['page'] != 'contact-list' && $_GET['page'] != 'view-edit' && $_GET['page'] != 'get-direct-contacts' && $_GET['page'] != 'get-billing-contacts' 
 	&& $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'
 	&& $_GET['page'] != 'edit-employer-details' && $_GET['page'] != 'swap-contact-type'){
 	
@@ -35,7 +35,36 @@ if (!isset($_GET['page'])) {
 else if($_GET['page'] == 'contact-list'){
 	echo json_encode(array('dir_contacts' => $employer -> getDirectContact(), 'bil_contacts' => $employer -> getBillingContact()));
 } 
-else if($_GET['page'] == 'add'){
+else if($_GET['page'] == 'add-employer'){
+	$contacts = $_POST['contacts'];
+	unset($_POST['contacts']);
+	$id =  $employer - > saveEmployer($_POST);
+	//perform the insertion
+	if(!is_null($id){
+		if(!is_null($contacts)){
+			$contactList = explode(':', $contacts);
+			foreach($contactList as $l){
+				$contactInfo = explode(',', $l);
+				$data = array('first_name' => $contactInfo[1],
+							  'last_name' =>$contactInfo[2],
+							   'street' =>$contactInfo[3],
+							   'street2' =>$contactInfo[4],
+							   'postal_code' =>$contactInfo[5],
+							   'province' =>$contactInfo[6],
+							   'city' =>$contactInfo[7],
+							   'country' =>$contactInfo[8],
+							   'phone' =>$contactInfo[9],
+							   'extension' =>$contactInfo[10],
+							   'email' => $contactInfo[11]);
+				if($contactInfo[12] == 1){
+					$employer -> saveBillingContact($data, $id);
+				}
+				else{
+					$employer -> saveDirectContact($data, $id);
+				}	
+			}
+		}
+	}
 
 } 
 else if($_GET['page'] == 'get-direct-contacts'){
@@ -87,7 +116,7 @@ else {
 //============================================================================================
 // FOOTER
 //============================================================================================
-if($_GET['page'] != 'add' && $_GET['page'] != 'contact-list' && $_GET['page'] != 'view-edit' && $_GET['page'] != 'get-direct-contacts' && $_GET['page'] != 'get-billing-contacts'  
+if($_GET['page'] != 'add-employer' && $_GET['page'] != 'contact-list' && $_GET['page'] != 'view-edit' && $_GET['page'] != 'get-direct-contacts' && $_GET['page'] != 'get-billing-contacts'  
 	&& $_GET['page'] != 'remmove-contact' && $_GET['page'] != 'add-contact-new' && $_GET['page'] != 'view-edit-contact' && $_GET['page'] != 'edit-contact-details'
 	&& $_GET['page'] != 'edit-employer-details' && $_GET['page'] != 'swap-contact-type'){
 	
