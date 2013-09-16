@@ -41,6 +41,7 @@ $('#edit-new-form-show').click(function(){
 });
 
 $('#edit-back-to-contact-main').click(function(){
+	$('.edit-contact-input').val('');
 	$('#edit-new-form').hide();
     $('#edit-append-contact').fadeIn();
 	$('#edit-contact-details-container').fadeIn();
@@ -184,13 +185,27 @@ $('#edit-append-contact').click(function(){
 			$(this).css('outline-color', '#A3A3A3');
 		}
 	});
-	if(valid){
+	if(true){
 		$.ajax({
 			type: 'post',
+			dataType:'json',
 			url: 'index.php?page=add-contact-new',
-			data: $('#edit-new-form').serialize() + "&employer_id=" + $('#edit_emp_id').val(),
+			data: $('#edit_contact_form').serialize() + "&employer_id=" + $('#edit_emp_id').val(),
 			success: function(data){
-
+				if($('#edit_billing_contact-yes').attr('checked') == 'checked'){
+					selectorPrefix = "billing";
+				}
+				else{
+					selectorPrefix = "direct";
+				}
+				//loop through contacts, if the contact isn' appended to the list, append it
+				$.each(data, function(){
+					if(!($('span[data-contact-id = "'+this.id+'"]').length > 0))
+					$('#'+selectorPrefix+'-contacts-list').append("<li><span data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</span>"+
+		        		"<div data-type='billing' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='billing' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
+				});
+				$('#edit-back-to-contact-main').click();
+				showMessage('Contact saved successfully.');
 			}
 		});
 	}
@@ -285,7 +300,7 @@ $('#confirm-add-emp').click(function(){
 			}
 		}
 		contacts = contacts.substring(0, contacts.length -1);
-		contacts+=":";
+		contacts+=":";       
 	});
 	contacts = contacts.substring(0, contacts.length -1);
 	$.ajax({
@@ -294,8 +309,29 @@ $('#confirm-add-emp').click(function(){
 		url: 'index.php?page=add-employer',
 		data: $('#emp_form').serialize() + '&contacts=' + contacts,
 		success: function(data){
+			if(data == "success")
+				showMessage('Employer added successfully.');
 		}
 	})
+});
+
+//handler for when the user clicks remove contact on the employer edit form
+$(document).on('click', '.remove-contacts', function(){
+	var id = $(this).attr('data-contact-id');
+	var confirmDelete = confirm("Are you sure you want to unassign this contact?");
+	if(confirmDelete){
+		$.ajax({
+			type:'post',
+			url: 'index.php?page=remove-contact',
+			data: 'id=' + id + '&type=' + $(this).attr('data-type'),
+			success: function(data){
+				if(data){
+					$('span[data-contact-id="'+id+'"]').parent().remove();
+					showMessage('contact unassigned successfully.');
+				}
+			}
+		});
+	}
 });
 
 function showMessage(message) {

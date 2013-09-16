@@ -54,23 +54,23 @@
 				</div>
 				<div class="row">
 			        <div class="seven columns labels">
-			        	<label for="pst_exempt">PST exempt</label>
+			        	<label for="hst_exempt">HST exempt</label>
 			        </div>
 			        <div class="thirteen columns">	
 				        <div class="buttonset">
-				            <input type='radio' name='pst_exempt' id='pst_exempt-yes' value='1'><label for='pst_exempt-yes'>Yes</label>
-				            <input type='radio' name='pst_exempt' id='pst_exempt-no' checked='checked' value='0'><label for='pst_exempt-no'>No</label>
+				            <input type='radio' name='hst_exempt' id='hst_exempt-yes' value='1'><label for='hst_exempt-yes'>Yes</label>
+				            <input type='radio' name='hst_exempt' id='hst_exempt-no' checked='checked' value='0'><label for='hst_exempt-no'>No</label>
 				        </div>
 				    </div>    
 			    </div>
 			    <div class="row">
 			       	<div class="seven columns labels">
-			        	<label for="hst_exempt">PST exempt</label>
+			        	<label for="pst_exempt">PST exempt</label>
 			        </div>
 			        <div class="thirteen columns">
 				        <div class="buttonset">
-				            <input type='radio' name='hst_exempt' id='hst_exempt-yes' value='1'><label for='hst_exempt-yes'>Yes</label>
-				            <input type='radio' name='hst_exempt' id='hst_exempt-no' checked='checked' value='0'><label for='hst_exempt-no'>No</label>
+				            <input type='radio' name='pst_exempt' id='pst_exempt-yes' value='1'><label for='pst_exempt-yes'>Yes</label>
+				            <input type='radio' name='pst_exempt' id='pst_exempt-no' checked='checked' value='0'><label for='pst_exempt-no'>No</label>
 				        </div>
 				    </div>    
 			    </div>
