@@ -53,6 +53,7 @@ table.dataTable tr.even td.sorting_1{
 .list-container{
 	padding:2em 0.2em;
 	border: solid #C7E3FF 1px;
+	margin-bottom:1em;
 }
 .contacts-list{
 	min-height:2em;
@@ -79,6 +80,17 @@ li.ui-state-default{
 	width:75%;
 	padding:6px;
 	margin-bottom: 2em;
+}
+.styled-dialog .ui-dialog-titlebar{
+	background: #5c86b0;
+	color:white;
+	border-radius:0;
+}
+.styled-dialog .ui-dialog-content{
+	text-align:center;
+}
+.styled-dialog .ui-icon-closethick{
+	color:white;
 }
 .table-button{
 	margin-top:1.5em;
@@ -127,6 +139,9 @@ li.ui-state-default{
 .tax-yes{
 	color:#93DE90;
 }
+.bil-button{
+	margin-right: 1em;
+}
 .tax-no{
 	color:#DE9B90;
 }
@@ -171,6 +186,13 @@ form{
 	color: #5c86b0;
 	font-size:22px;
 }
+.contact-card{
+	border-left: 3px black solid;
+	padding-left: 0.5em;
+	margin-left: 2em;
+	text-align:left;
+}
+
 #dir-contacts-title{
 	bottom:2.6em;
 	right:5.0em;
@@ -189,11 +211,6 @@ form{
 	bottom:1.5em;
 	right:11em;
 }
-#step-two{
-	bottom:1.5em;
-	right:6.8em;
-}
-
 #emp-edit-title{
 	bottom:1.5em;
 	right:12.3em;
@@ -227,4 +244,8 @@ form{
 }
 #toc-title, #new-form, #anc-title, #contact-table-container, #edit-new-form, #back-to-table, #contact-form-loader{
 	display:none;
+}
+#contact-name{
+	margin-top:1em;
+	color: #5c86b0;
 }

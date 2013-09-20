@@ -7,17 +7,17 @@
 </div>
 </div>
 <div class="content container">
-    <div class='row' id="main-table">
+    <div class='row component' id="main-table">
         <div class="twenty columns panel">
             <?php require "components/employer-table.php" ?>
         </div>
     </div>
-    <div class='row' id="employer-form" style="display:none">
+    <div class='row component' id="employer-form" style="display:none">
         <div class="twenty columns panel">
             <?php require "components/emp-form.php" ?>
         </div>
     </div>
-    <div class='row' id="emp-edit-form" style="display:none">
+    <div class='row component' id="emp-edit-form" style="display:none">
         <div class="twenty columns panel">
             <?php require "components/edit-form.php" ?>
         </div>

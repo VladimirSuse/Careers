@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	//initialze buttonset, chosen
+	//initialze jquery ui and chosen
 	$('.chzn-select').chosen();
 	$('.buttonset').buttonset();
 	//initalize employer table
@@ -88,8 +88,7 @@ $('#back-to-table').click(function(){
 	else{
 		$('.emp-input').val('');
 		$('.contact-input').val('');
-		$('#employer-form').hide();
-		$('#emp-edit-form').hide();
+		$('.component').hide();;
 		$('.topmenu').fadeIn();
 		$('#back-to-table').hide();
 		$('#main-table').fadeIn();
@@ -113,37 +112,14 @@ $(document).on('click', '.view-edit', function(){
         url: 'index.php?page=view-edit',
         data: 'id=' + $(this).attr('data-emp-id'),
         success: function(data){
-        	//populate text input fields
-        	$('.edit-emp-input').each(function(){
-        		$('#edit_emp_' + $(this).attr('name')).val(data['emp_info'][0][$(this).attr('name')]);
-        		$('#edit_emp_' + $(this).attr('name')).attr('data-current-value',data['emp_info'][0][$(this).attr('name')]);
-        	});
-        	
-        	//set contact type buttons	
-        	(data['emp_info'][0].pst_exempt == '1' ? $('#edit_pst_exempt-yes').attr('checked', 'checked') : $('#edit_pst_exempt-no').attr('checked', 'checked'));
-        	(data['emp_info'][0].hst_exempt == '1' ? $('#edit_hst_exempt-yes').attr('checked', 'checked') : $('#edit_hst_exempt-no').attr('checked', 'checked'));
-        	
-        	//populate dir contact lists
-			$('.chzn-select').empty();
-			if(data['dir_contacts'].length > 0){
-	        	$.each(data['dir_contacts'], function(){
-	        		$('#direct-contacts-list').append("<li><span data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</span>"+
-	        		"<div data-type='direct' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='billing' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
-	        	});
-        	}
-        	//populate billing contact lists
-        	if(data['bil_contacts'].length > 0){
-	        	$.each(data['bil_contacts'], function(){
-	        		$('#billing-contacts-list').append("<li><span data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</span>"+
-	        		"<div data-type='billing' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='billing' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
-	        	});
-        	}
-        	//reiniialize jquery ui and fade in the proper divs
+        	//populate all form data
+        	populateEditForm(data);
+        	//reiniialize jquery ui and fade in the proper divs, resize windows
+        	adjustContactsHeight();
         	$('.buttonset').buttonset();
   	      	$('.chzn-select').chosen().trigger('liszt:updated');
-  	      	$('#employer-title').html('Viewing ' + data['emp_info'][0].org_name_en);
   	      	$('.topmenu').hide();
-			$('#main-table').hide();
+			$('.component').hide();
 			$('#emp-edit-form').fadeIn();
 			$('#back-to-table').fadeIn();
         }
@@ -201,9 +177,10 @@ $('#edit-append-contact').click(function(){
 				//loop through contacts, if the contact isn' appended to the list, append it
 				$.each(data, function(){
 					if(!($('span[data-contact-id = "'+this.id+'"]').length > 0))
-					$('#'+selectorPrefix+'-contacts-list').append("<li><span data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</span>"+
-		        		"<div data-type='billing' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='billing' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
+					$('#'+selectorPrefix+'-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
+		        		"<div data-type='"+selectorPrefix+"' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='"+selectorPrefix+"' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
 				});
+				adjustContactsHeight();
 				$('#edit-back-to-contact-main').click();
 				showMessage('Contact saved successfully.');
 			}
@@ -225,16 +202,18 @@ $('.buttonset input').click(function(){
 		// });
 	}
 	else{
-		$.ajax({
-			type:'post',
-			dataType: 'json',
-			url: 'index.php?page=edit-employer-details',
-			data: 'id=' + $('#edit_emp_id').val() + "&" + $(this).attr('name') + "=" +$(this).attr('value'),
-			success:function(){
-				$('#edit_emp_id').attr('data-edited', 1);
-				showMessage('Employer changes saved successfully.');
-			}
-		});
+		if($(this).attr('id').indexOf('edit') >= 0){
+			$.ajax({
+				type:'post',
+				dataType: 'json',
+				url: 'index.php?page=edit-employer-details',
+				data: 'id=' + $('#edit_emp_id').val() + "&" + $(this).attr('name') + "=" +$(this).attr('value'),
+				success:function(){
+					$('#edit_emp_id').attr('data-edited', 1);
+					showMessage('Employer changes saved successfully.');
+				}
+			});
+		}
 	}
 }); 
 
@@ -276,41 +255,29 @@ $('.edit-emp-input').blur(function(){
 	}
 });
 
-//handler for when the user clicks add contact on the new contact form
-$('#append-contact').click(function(){
-	var option = "<option ";
-	$('.contact-input').each(function(i){
-		option += "data-" + $(this).attr('name') + "='" + $(this).val() +"' ";
-	});
-	($('#billing_contact-yes').attr('checked') == 'checked' ? option+= "data-conact-type='1' " :  option+= "data-contact-type='0' ");
-	option+= "selected>" + $('#contact_first_name').val() +" "+ $('#contact_last_name').val() + "</option>";
-	$('#contacts').append(option);
-	$('.chzn-select').chosen().trigger('liszt:updated');
-    $('#back-to-contact-main').click();
-});
-
 //handler for when the user clicks add employer on the new employer form
 $('#confirm-add-emp').click(function(){
-	//build a list of contacts string
-	var contacts = "";
-	$('.chzn-select > option:selected').each(function(){
-		for(var i = 0; i < $(this)[0].attributes.length; i++){
-			if($(this)[0].attributes[i].specified && $(this)[0].attributes[i].name != 'id' && $(this)[0].attributes[i].name != 'value'){
-				contacts += ($(this)[0].attributes[i].value + ',') ;
-			}
-		}
-		contacts = contacts.substring(0, contacts.length -1);
-		contacts+=":";       
-	});
-	contacts = contacts.substring(0, contacts.length -1);
 	$.ajax({
 		type: 'post',
 		dataType: 'json',
 		url: 'index.php?page=add-employer',
-		data: $('#emp_form').serialize() + '&contacts=' + contacts,
+		data: $('#emp_form').serialize(),
 		success: function(data){
-			if(data == "success")
+			var returnedField = data;
+			if(!isNaN(data['emp_info'][0].id)){
 				showMessage('Employer added successfully.');
+				setTimeout(function(){
+					    //send user straight to edit form, clear all fields
+					    $('.emp-edit-input').val('');
+   						$('#emp-edit-form radio').removeAttr('checked');
+    					$('.contacts-list').empty();
+    					//force a refresh of table upon hitting back on the edit form
+    					$('#edit_emp_id').attr('data-edited', 1);
+    					populateEditForm(returnedField);
+    					$('.component').hide()
+    					$('#emp-edit-form').fadeIn();
+				},1500);
+			}
 		}
 	})
 });
@@ -326,7 +293,8 @@ $(document).on('click', '.remove-contacts', function(){
 			data: 'id=' + id + '&type=' + $(this).attr('data-type'),
 			success: function(data){
 				if(data){
-					$('span[data-contact-id="'+id+'"]').parent().remove();
+					$('div[data-contact-id="'+id+'"]').parent().remove();
+					adjustContactsHeight();
 					showMessage('contact unassigned successfully.');
 				}
 			}
@@ -339,6 +307,10 @@ function showMessage(message) {
     $('.success-message').animate({top: '8px', opacity: '1.0'}, 300, 'easeOutCubic').delay(1000).animate({top: '-35px', opacity: '0.0'}, 300, 'easeOutCubic');
 }
 
+function adjustContactsHeight(){
+	$('.list-container').css('height', Math.max($('#billing-contacts-list').parent().height(),$('#direct-contacts-list').parent().height()));
+}
+
 function initEmployerTable(){
 	$('#employer-table').dataTable({
 		"iDisplayLength": 15,
@@ -348,4 +320,33 @@ function initEmployerTable(){
             "aTargets": [3,4,5]
         }]
 	});
+}
+
+function populateEditForm(data){
+	//populate text input fields
+	$('.edit-emp-input').each(function(){
+		$('#edit_emp_' + $(this).attr('name')).val(data['emp_info'][0][$(this).attr('name')]);
+		$('#edit_emp_' + $(this).attr('name')).attr('data-current-value',data['emp_info'][0][$(this).attr('name')]);
+	});
+	
+	//set contact type buttons	
+	(data['emp_info'][0].pst_exempt == '1' ? $('#edit_pst_exempt-yes').attr('checked', 'checked') : $('#edit_pst_exempt-no').attr('checked', 'checked'));
+	(data['emp_info'][0].hst_exempt == '1' ? $('#edit_hst_exempt-yes').attr('checked', 'checked') : $('#edit_hst_exempt-no').attr('checked', 'checked'));
+	
+	//populate dir contact lists
+	$('.chzn-select').empty();
+	if(data['dir_contacts'].length > 0){
+    	$.each(data['dir_contacts'], function(){
+    		$('#direct-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
+    		"<div data-type='direct' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='direct' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
+    	});
+	}
+	//populate billing contact lists
+	if(data['bil_contacts'].length > 0){
+    	$.each(data['bil_contacts'], function(){
+    		$('#billing-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
+    		"<div data-type='billing' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='billing' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
+    	});
+	}
+	$('#employer-title').html('Viewing ' + data['emp_info'][0].org_name_en);
 }
