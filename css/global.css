@@ -51,12 +51,12 @@ table.dataTable tr.even td.sorting_1{
 	background: #F0F7FF;
 }
 .list-container{
+	min-height: 2em;
 	padding:2em 0.2em;
 	border: solid #C7E3FF 1px;
 	margin-bottom:1em;
 }
 .contacts-list{
-	min-height:2em;
 	list-style:none;
 }
 li.ui-state-default{
@@ -105,7 +105,6 @@ li.ui-state-default{
 	display:inline-block;
 	cursor:pointer;
 	margin-left:0.3em;
-	font-size:22px;
 }
 .view-edit-contact{
 	color:#B5DEA6;
@@ -242,7 +241,7 @@ form{
 	cursor:pointer;
 	color:#5c86b0;
 }
-#toc-title, #new-form, #anc-title, #contact-table-container, #edit-new-form, #back-to-table, #contact-form-loader{
+#toc-title, #new-form, #anc-title, #contact-table-container, #edit-new-form, #edit-contacts-table-container, #back-to-table, #contact-form-loader{
 	display:none;
 }
 #contact-name{

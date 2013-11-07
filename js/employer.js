@@ -34,7 +34,7 @@ $('#new-form-show').click(function(){
 });	
 
 $('#edit-new-form-show').click(function(){
-	$('.edit-contact-input').val("");
+	$('.edit-contact-input').val('');
 	$('#edit-new-contact-title').html('Add A Contact');
 	$('#edit-contact-details-container').hide();
 	$('#edit-new-form').fadeIn();
@@ -47,8 +47,7 @@ $('#edit-back-to-contact-main').click(function(){
 	$('#edit-contact-details-container').fadeIn();
 });
 
-//handler for when the user clicks "view list of existting contacts"
-$('#contact-table-show').click(function(){
+$('#edit-contact-table-show').click(function(){
 	$('#contact-details-container').hide();
 	$('#contact-form-loader').show();
 	$.ajax({
@@ -57,7 +56,7 @@ $('#contact-table-show').click(function(){
 		url: "index.php?page=contact-list",
 		success: function(data){
 			$.each(data['dir_contacts'], function() {
-        		$("#contact-table").dataTable().fnAddData([
+        		$("#edit-contacts-table").dataTable().fnAddData([
             		'<p>' + this.first_name + ' ' + this.last_name +
             		'<div data-id="' + this.id + '" style="display:none">'+
                 		'<p itemprop="' + this.street + '">' + this.street + '</p>'+
@@ -68,6 +67,7 @@ $('#contact-table-show').click(function(){
                 		'<p itemprop="' + this.country + '">' + this.country + '</p>'+
                 		'<p itemprop="' + this.phone + '">' + this.phone + '</p>'+
             		'</div>',
+                    this.phone + (this.extension !== null ? ' - '+this.extension : ''),
             		this.email,
             		"<div "+"id='"+this.id+"'"+" class='metro primary fairs-button icon-left entypo icon-plus small btn'><a>add</a></div>"
         		]);
@@ -115,8 +115,7 @@ $(document).on('click', '.view-edit', function(){
         	//populate all form data
         	populateEditForm(data);
         	//reiniialize jquery ui and fade in the proper divs, resize windows
-        	adjustContactsHeight();
-        	$('.buttonset').buttonset();
+            $('.buttonset').buttonset();
   	      	$('.chzn-select').chosen().trigger('liszt:updated');
   	      	$('.topmenu').hide();
 			$('.component').hide();
@@ -127,7 +126,7 @@ $(document).on('click', '.view-edit', function(){
 });
 
 //handler for when the user clciks the view button for a contact
-$('.view-edit-contact').live('click', function(){
+$(document).on('click','.view-edit-contact', function(){
 	var type = $(this).attr('data-type');
 	$.ajax({
 		type: 'post',
@@ -140,11 +139,12 @@ $('.view-edit-contact').live('click', function(){
         		$('#edit_contact_' + $(this).attr('name')).val(data[0][$(this).attr('name')]);
         		$('#edit_contact_' + $(this).attr('name')).attr('data-current-value',data[0][$(this).attr('name')]);
         	});
-        	(type == 'billing' ? $('#edit_billing_contact-yes').attr('checked', 'checked') : $('#edit_billing_contact-no').attr('checked', 'checked'));
+        	(type === 'billing' ? $('#edit_billing_contact-yes').prop('checked', true) : $('#edit_billing_contact-no').prop('checked', true));
         	$('#edit-new-contact-title').html('Viewing ' + data[0].first_name + " " + data[0].last_name).css('float','center');
-        	$('#edit-append-contact').hide();
+        	$('.buttonset').buttonset();
+            $('#edit-append-contact').hide();
         	$('#edit-contact-details-container').hide();
-        	$('#edit-new-form').fadeIn();
+            $('#edit-new-form').fadeIn();
 		}
 	});
 });
@@ -168,7 +168,7 @@ $('#edit-append-contact').click(function(){
 			url: 'index.php?page=add-contact-new',
 			data: $('#edit_contact_form').serialize() + "&employer_id=" + $('#edit_emp_id').val(),
 			success: function(data){
-				if($('#edit_billing_contact-yes').attr('checked') == 'checked'){
+				if($('#edit_billing_contact-yes').prop('checked')){
 					selectorPrefix = "billing";
 				}
 				else{
@@ -180,9 +180,8 @@ $('#edit-append-contact').click(function(){
 					$('#'+selectorPrefix+'-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
 		        		"<div data-type='"+selectorPrefix+"' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='"+selectorPrefix+"' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
 				});
-				adjustContactsHeight();
 				$('#edit-back-to-contact-main').click();
-				showMessage('Contact saved successfully.');
+                showMessage('Contact saved successfully.');
 			}
 		});
 	}
@@ -294,7 +293,6 @@ $(document).on('click', '.remove-contacts', function(){
 			success: function(data){
 				if(data){
 					$('div[data-contact-id="'+id+'"]').parent().remove();
-					adjustContactsHeight();
 					showMessage('contact unassigned successfully.');
 				}
 			}
@@ -305,10 +303,6 @@ $(document).on('click', '.remove-contacts', function(){
 function showMessage(message) {
     $('.success-message').text(message);
     $('.success-message').animate({top: '8px', opacity: '1.0'}, 300, 'easeOutCubic').delay(1000).animate({top: '-35px', opacity: '0.0'}, 300, 'easeOutCubic');
-}
-
-function adjustContactsHeight(){
-	$('.list-container').css('height', Math.max($('#billing-contacts-list').parent().height(),$('#direct-contacts-list').parent().height()));
 }
 
 function initEmployerTable(){
@@ -330,22 +324,22 @@ function populateEditForm(data){
 	});
 	
 	//set contact type buttons	
-	(data['emp_info'][0].pst_exempt == '1' ? $('#edit_pst_exempt-yes').attr('checked', 'checked') : $('#edit_pst_exempt-no').attr('checked', 'checked'));
-	(data['emp_info'][0].hst_exempt == '1' ? $('#edit_hst_exempt-yes').attr('checked', 'checked') : $('#edit_hst_exempt-no').attr('checked', 'checked'));
+	(data['emp_info'][0].pst_exempt == '1' ? $('#edit_pst_exempt-yes').prop('checked', true) : $('#edit_pst_exempt-no').prop('checked', true));
+	(data['emp_info'][0].hst_exempt == '1' ? $('#edit_hst_exempt-yes').prop('checked', true) : $('#edit_hst_exempt-no').prop('checked', true));
 	
 	//populate dir contact lists
 	$('.chzn-select').empty();
 	if(data['dir_contacts'].length > 0){
     	$.each(data['dir_contacts'], function(){
     		$('#direct-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
-    		"<div data-type='direct' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='direct' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
+    		"<div data-type='direct' data-contact-id='"+this.id+"' class='view-edit-contact'>View </div><span id='divider'>|</span><div data-type='direct' data-contact-id='"+this.id+"' class='remove-contacts'>Delete</div>"+"</li>");
     	});
 	}
 	//populate billing contact lists
 	if(data['bil_contacts'].length > 0){
     	$.each(data['bil_contacts'], function(){
     		$('#billing-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
-    		"<div data-type='billing' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='billing' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
+    		"<div data-type='billing' data-contact-id='"+this.id+"' class='view-edit-contact'>View </div><span id='divider'>|</span><div data-type='billing' data-contact-id='"+this.id+"' class='remove-contacts'>Delete</div>"+"</li>");
     	});
 	}
 	$('#employer-title').html('Viewing ' + data['emp_info'][0].org_name_en);
