@@ -97,7 +97,7 @@
 		<div class="btn metro medium primary icon-left fairs-button entypo icon-user-add" id="edit-new-form-show" style="margin-top:1em"><a>Add a new contact</a></div>
 		<div class="btn metro medium primary icon-left fairs-button entypo icon-user-add" id="edit-contact-table-show" style="margin-top:1em"><a>Add an existing contact</a></div>
 		</div>
-		<div class='row' id='edit-contacts-table-container'>
+		<div class='row' style="padding:1em;border:solid #C7E3FF 1px;" id='edit-contacts-table-container'>	
 			<table id='edit-contacts-table'>
 				<thead>
 					<th scope='column'>Name</th>
@@ -106,7 +106,7 @@
 					<th scope='column'></th>
 				</thead>
 				<tbody></tbody>					
-			</table>	
+			</table>		
 		</div>	
 		<div class="row" id="edit-new-form" style="padding:1em;border:solid #C7E3FF 1px;">
 			<div class="emp-step" id="edit-new-contact-title"></div>

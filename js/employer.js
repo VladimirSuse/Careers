@@ -1,6 +1,7 @@
 $(document).ready(function(){
-	//initialze jquery ui and chosen
-	$('.chzn-select').chosen();
+    $('.navbar a:contains('+$('.page-title').attr('data-title')+')').css('background-color','#86B2D9');
+    //initialze jquery ui and chosen
+    $('.chzn-select').chosen();
 	$('.buttonset').buttonset();
 	//initalize employer table
 	initEmployerTable();
@@ -13,7 +14,7 @@ $(document).ready(function(){
             "aTargets": [1,2]
         }]
 	});
-	$('.loader').hide();
+    $('.loader').hide();
 	$('#emp-table-container').fadeIn();
 });
 
@@ -48,7 +49,7 @@ $('#edit-back-to-contact-main').click(function(){
 });
 
 $('#edit-contact-table-show').click(function(){
-	$('#contact-details-container').hide();
+	$('#edit-contact-details-container').hide();
 	$('#contact-form-loader').show();
 	$.ajax({
 		type: "post",
@@ -67,14 +68,14 @@ $('#edit-contact-table-show').click(function(){
                 		'<p itemprop="' + this.country + '">' + this.country + '</p>'+
                 		'<p itemprop="' + this.phone + '">' + this.phone + '</p>'+
             		'</div>',
-                    this.phone + (this.extension !== null ? ' - '+this.extension : ''),
+                    this.phone + (this.extension !== null ? ' ext: '+this.extension : ''),
             		this.email,
             		"<div "+"id='"+this.id+"'"+" class='metro primary fairs-button icon-left entypo icon-plus small btn'><a>add</a></div>"
         		]);
         		$('tr:has(div[data-id="' + this.id + '"])').attr('data_contact_id', this.id);   
     		});
 			$('#contact-form-loader').hide();
-			$('#contact-table-container').fadeIn();
+			$('#edit-contacts-table-container').fadeIn();
 			$('#toc-title').css('display','inline-block').fadeIn();
 		}
 	});

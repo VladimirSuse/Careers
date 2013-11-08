@@ -1,5 +1,5 @@
 <div class="row">
-	<h3 style="margin-bottom:2em">Add a new Employer</h3>
+	<h3 style="margin-bottom:2em">Add a new employer</h3>
 	<div class="centered fourteen columns">
 		<div class="row" style="padding:1em;border:solid #C7E3FF 1px;">	
 			<div class="emp-step" id="step-one">Employer Details</div>
