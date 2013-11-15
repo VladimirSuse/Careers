@@ -50,6 +50,11 @@ table.dataTable tr.odd td.sorting_1{
 table.dataTable tr.even td.sorting_1{
 	background: #F0F7FF;
 }
+
+table.dataTable td{
+	vertical-align: middle;
+}
+
 .list-container{
 	min-height: 2em;
 	padding:2em 0.2em;
@@ -93,8 +98,13 @@ li.ui-state-default{
 	color:white;
 }
 .table-button{
-	margin-top:1.5em;
-	margin-left:1em;
+	margin-left:2px;
+	float:right;
+	min-width:7em;
+	cursor:pointer;
+}
+.contact-table-button{
+	margin-bottom:1em;
 	float:right;
 }
 .dataTables_filter{
@@ -186,9 +196,10 @@ form{
 	font-size:22px;
 }
 .contact-card{
-	border-left: 3px black solid;
+	border-left: 1px #365370 solid;
 	padding-left: 0.5em;
 	margin-left: 2em;
+	margin-bottom:1em;
 	text-align:left;
 }
 
@@ -221,6 +232,10 @@ form{
 }
 
 #emp-contacts{
+	bottom:1.4em;
+	right:12em;
+}
+#emp-edit-existing-contacts-title{
 	bottom:1.4em;
 	right:12em;
 }

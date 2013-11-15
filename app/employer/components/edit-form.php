@@ -97,7 +97,12 @@
 		<div class="btn metro medium primary icon-left fairs-button entypo icon-user-add" id="edit-new-form-show" style="margin-top:1em"><a>Add a new contact</a></div>
 		<div class="btn metro medium primary icon-left fairs-button entypo icon-user-add" id="edit-contact-table-show" style="margin-top:1em"><a>Add an existing contact</a></div>
 		</div>
-		<div class='row' style="padding:1em;border:solid #C7E3FF 1px;" id='edit-contacts-table-container'>	
+		<div class='row'>
+			<div class="loader"><img src="../../img/loader.gif"></div>
+		</div>	
+		<div class='row contacts-container' style="padding:1em;border:solid #C7E3FF 1px;" id='edit-contacts-table-container'>	
+			<div class="emp-step" id="emp-edit-existing-contacts-title">Add Existing Contacts</div>
+			<div class="fairs-button icon-left contact-table-button entypo icon-arrow-left metro medium primary btn edit-back-to-contact-main"><a>Back</a></div>
 			<table id='edit-contacts-table'>
 				<thead>
 					<th scope='column'>Name</th>
@@ -108,7 +113,7 @@
 				<tbody></tbody>					
 			</table>		
 		</div>	
-		<div class="row" id="edit-new-form" style="padding:1em;border:solid #C7E3FF 1px;">
+		<div class="row contacts-container" id="edit-new-form" style="padding:1em;border:solid #C7E3FF 1px;">
 			<div class="emp-step" id="edit-new-contact-title"></div>
 			<div class='row' style="margin-bottom:2em">
 			</div>
@@ -215,7 +220,7 @@
 				    </div>    
 			    </div>
 			    <div class="row text-center">
-			    	<div class="fairs-button icon-left entypo icon-arrow-left metro medium primary btn" id="edit-back-to-contact-main"><a>Back</a></div>
+			    	<div class="fairs-button icon-left entypo icon-arrow-left metro medium primary btn edit-back-to-contact-main"><a>Back</a></div>
 				    <div id="edit-append-contact" class="metro primary fairs-button icon-left entypo icon-plus medium btn"><a>Add Contact</a></div>
 				</div>									
 			</form>

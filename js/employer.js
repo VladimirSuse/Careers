@@ -41,21 +41,23 @@ $('#edit-new-form-show').click(function(){
 	$('#edit-new-form').fadeIn();
 });
 
-$('#edit-back-to-contact-main').click(function(){
+$('.edit-back-to-contact-main').click(function(){
 	$('.edit-contact-input').val('');
-	$('#edit-new-form').hide();
+	$('.contacts-container').hide();
     $('#edit-append-contact').fadeIn();
 	$('#edit-contact-details-container').fadeIn();
 });
 
+//handler for when the user clicks add an existing contact
 $('#edit-contact-table-show').click(function(){
 	$('#edit-contact-details-container').hide();
-	$('#contact-form-loader').show();
-	$.ajax({
+    $('.loader').show();
+    $.ajax({
 		type: "post",
 		dataType: "json",
 		url: "index.php?page=contact-list",
 		success: function(data){
+            $("#edit-contacts-table").dataTable().fnClearTable();
 			$.each(data['dir_contacts'], function() {
         		$("#edit-contacts-table").dataTable().fnAddData([
             		'<p>' + this.first_name + ' ' + this.last_name +
@@ -70,13 +72,14 @@ $('#edit-contact-table-show').click(function(){
             		'</div>',
                     this.phone + (this.extension !== null ? ' ext: '+this.extension : ''),
             		this.email,
-            		"<div "+"id='"+this.id+"'"+" class='metro primary fairs-button icon-left entypo icon-plus small btn'><a>add</a></div>"
+            		"Add as: <div style='margin-right:1em' data-type='billing' "+"data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>billing</a></div>"+
+                    "<div data-type='direct' "+"data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>direct</a></div>"
         		]);
         		$('tr:has(div[data-id="' + this.id + '"])').attr('data_contact_id', this.id);   
     		});
-			$('#contact-form-loader').hide();
-			$('#edit-contacts-table-container').fadeIn();
-			$('#toc-title').css('display','inline-block').fadeIn();
+			$('.loader').hide();
+			$('#results-container').fadeIn();
+            $('#edit-contacts-table-container').fadeIn();
 		}
 	});
 });
@@ -141,7 +144,7 @@ $(document).on('click','.view-edit-contact', function(){
         		$('#edit_contact_' + $(this).attr('name')).attr('data-current-value',data[0][$(this).attr('name')]);
         	});
         	(type === 'billing' ? $('#edit_billing_contact-yes').prop('checked', true) : $('#edit_billing_contact-no').prop('checked', true));
-        	$('#edit-new-contact-title').html('Viewing ' + data[0].first_name + " " + data[0].last_name).css('float','center');
+        	$('#edit-new-contact-title').html(data[0].first_name + " " + data[0].last_name).css('float','center');
         	$('.buttonset').buttonset();
             $('#edit-append-contact').hide();
         	$('#edit-contact-details-container').hide();
@@ -301,6 +304,11 @@ $(document).on('click', '.remove-contacts', function(){
 	}
 });
 
+$(document).on('click', '.add-existing-contact', function(){
+    console.log($(this).parent().parent()[0].children[0].find('p').html());
+    //var confirmAdd = confirm('Do you wish to add');
+});
+
 function showMessage(message) {
     $('.success-message').text(message);
     $('.success-message').animate({top: '8px', opacity: '1.0'}, 300, 'easeOutCubic').delay(1000).animate({top: '-35px', opacity: '0.0'}, 300, 'easeOutCubic');
@@ -343,5 +351,5 @@ function populateEditForm(data){
     		"<div data-type='billing' data-contact-id='"+this.id+"' class='view-edit-contact'>View </div><span id='divider'>|</span><div data-type='billing' data-contact-id='"+this.id+"' class='remove-contacts'>Delete</div>"+"</li>");
     	});
 	}
-	$('#employer-title').html('Viewing ' + data['emp_info'][0].org_name_en);
+	$('#employer-title').html(data['emp_info'][0].org_name_en);
 }
