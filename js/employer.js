@@ -72,8 +72,8 @@ $('#edit-contact-table-show').click(function(){
             		'</div>',
                     this.phone + (this.extension !== null ? ' ext: '+this.extension : ''),
             		this.email,
-            		"Add as: <div style='margin-right:1em' data-type='billing' "+"data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>billing</a></div>"+
-                    "<div data-type='direct' "+"data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>direct</a></div>"
+            		"Add as: <div style='margin-right:1em' data-type='billing' "+ "data-name='"+this.first_name+" " + this.last_name +"' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>billing</a></div>"+
+                    "<div data-type='direct' "+"data-name='"+this.first_name+" " + this.last_name + "' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>direct</a></div>"
         		]);
         		$('tr:has(div[data-id="' + this.id + '"])').attr('data_contact_id', this.id);   
     		});
@@ -297,7 +297,7 @@ $(document).on('click', '.remove-contacts', function(){
 			success: function(data){
 				if(data){
 					$('div[data-contact-id="'+id+'"]').parent().remove();
-					showMessage('contact unassigned successfully.');
+					           
 				}
 			}
 		});
@@ -305,8 +305,17 @@ $(document).on('click', '.remove-contacts', function(){
 });
 
 $(document).on('click', '.add-existing-contact', function(){
-    console.log($(this).parent().parent()[0].children[0].find('p').html());
-    //var confirmAdd = confirm('Do you wish to add');
+    var confirmAdd = confirm('Do you wish to add '+$(this).attr('data-name')+' as a ' + $(this).attr('data-type') + ' contact?');
+    if(confirm){
+        $.ajax({
+            type:'post',
+            url: 'index.php?page=add-contact-existing',
+            data: 'employer_id='+ $('#edit_emp_id').val() +'&id=' + $(this).attr('data-id')  + '&type=' + $(this).attr('data-type'),
+            success: function(){
+                showMessage('contact unassigned successfully.');
+            }
+        });
+    }
 });
 
 function showMessage(message) {

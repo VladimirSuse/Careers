@@ -73,6 +73,9 @@ else if ($_GET['page'] === 'add-contact-new'){
 		}
 	}	
 }
+else if ($_GET['page'] === 'add-contact-existing'){
+
+}
 else if ($_GET['page'] ==='view-edit-contact'){
 	echo json_encode($employer -> getContactDetail($_POST['id']));
 }
