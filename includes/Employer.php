@@ -279,6 +279,17 @@ class Employer extends SyncObject{
 	}
 
 	/**
+	*	Save existing direct contact 
+	*	@param array $data an array of data needs to be inserted
+	*	@param int $employerID an id represent an employer
+	*	@return last insert id after insertion
+	*/
+	public function saveExistngContact($contactType, $contactId, $employerId){
+		$data = array("career_employer_contact_id"=>$contactId, "career_employer_id"=>$employerId);
+		return ($contactType == 'billing' ? $this->mysql_binding_insert($data, 'career_employer_billing_contacts') : $this->mysql_binding_insert($data, 'career_employer_direct_contacts'));	
+	}
+
+	/**
 	*	Save direct contact 
 	*	@param array $data an array of data needs to be inserted
 	*	@param int $employerID an id represent an employer
@@ -318,7 +329,7 @@ class Employer extends SyncObject{
 	*/
 	public function getUnusedContact($id){
 		return $this->mysql_query("SELECT *
-                                     FROM career_employer_contact_details ab
+                                     FROM career_employer_contact_details t
                                     WHERE 
                                NOT EXISTS
                                         ( 
@@ -326,7 +337,7 @@ class Employer extends SyncObject{
                                      FROM career_employer_direct_contacts b
                                      JOIN career_employers c 
                                       ON b.career_employer_id = c.id
-                                   WHERE c.id = $id AND ab.id = b.career_employer_contact_id
+                                   WHERE c.id = $id AND t.id = b.career_employer_contact_id
                                         )
 									 AND 
 							  NOT EXISTS
@@ -335,7 +346,7 @@ class Employer extends SyncObject{
   									FROM career_employer_billing_contacts b
   									JOIN career_employers c 
     								  ON b.career_employer_id = c.id
- 								   WHERE c.id = 2 AND ab.id = b.career_employer_contact_id
+ 								   WHERE c.id = $id AND t.id = b.career_employer_contact_id
 										)");
 	}
 

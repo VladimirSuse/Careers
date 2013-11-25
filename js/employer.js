@@ -6,7 +6,7 @@ $(document).ready(function(){
 	//initalize employer table
 	initEmployerTable();
 	//initailize contact table 
-	$('#contact-table').dataTable({
+	$('#edit-contacts-table').dataTable({
 		"iDisplayLength": 10,
         "aaSorting": [[0, "asc"]],
         "aoColumnDefs": [{
@@ -50,34 +50,41 @@ $('.edit-back-to-contact-main').click(function(){
 
 //handler for when the user clicks add an existing contact
 $('#edit-contact-table-show').click(function(){
-	$('#edit-contact-details-container').hide();
+	var tableBody = '';
+    $('#edit-contact-details-container').hide();
     $('.loader').show();
     $.ajax({
-		type: "post",
-		dataType: "json",
-		url: "index.php?page=contact-list",
+		type: 'post',
+		dataType: 'json',
+		url: 'index.php?page=contact-list',
+        data:'employer_id=' +$('#edit_emp_id').val(),
 		success: function(data){
-            $("#edit-contacts-table").dataTable().fnClearTable();
-			$.each(data['dir_contacts'], function() {
-        		$("#edit-contacts-table").dataTable().fnAddData([
-            		'<p>' + this.first_name + ' ' + this.last_name +
-            		'<div data-id="' + this.id + '" style="display:none">'+
-                		'<p itemprop="' + this.street + '">' + this.street + '</p>'+
-                		'<p itemprop="' + this.street2 + '">' + this.street2 + '</p>'+
-                		'<p itemprop="' + this.postal_code + '">' + this.postal_code + '</p>'+
-                		'<p itemprop="' + this.city + '">' + this.city + '</p>'+
-                		'<p itemprop="' + this.province + '">' + this.province + '</p>'+
-                		'<p itemprop="' + this.country + '">' + this.country + '</p>'+
-                		'<p itemprop="' + this.phone + '">' + this.phone + '</p>'+
-            		'</div>',
-                    this.phone + (this.extension !== null ? ' ext: '+this.extension : ''),
-            		this.email,
-            		"Add as: <div style='margin-right:1em' data-type='billing' "+ "data-name='"+this.first_name+" " + this.last_name +"' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>billing</a></div>"+
-                    "<div data-type='direct' "+"data-name='"+this.first_name+" " + this.last_name + "' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>direct</a></div>"
-        		]);
-        		$('tr:has(div[data-id="' + this.id + '"])').attr('data_contact_id', this.id);   
-    		});
+			$.each(data, function() {
+        		tableBody += '<tr data-contact-id="'+this.id+'">' + 
+                '<td>'+
+                    '<p>' + this.first_name + ' ' + this.last_name + '</p>' +
+                    '<div data-id="' + this.id + '" style="display:none">'+
+                        '<p itemprop="' + this.street + '">' + this.street + '</p>'+
+                        '<p itemprop="' + this.street2 + '">' + this.street2 + '</p>'+
+                        '<p itemprop="' + this.postal_code + '">' + this.postal_code + '</p>'+
+                        '<p itemprop="' + this.city + '">' + this.city + '</p>'+
+                        '<p itemprop="' + this.province + '">' + this.province + '</p>'+
+                        '<p itemprop="' + this.country + '">' + this.country + '</p>'+
+                        '<p itemprop="' + this.phone + '">' + this.phone + '</p>'+
+                    '</div>'+
+                '</td>' +
+                '<td>' + this.phone + (this.extension !== '0' ? ' ext: '+this.extension : '') + '</td>'+
+                '<td>' + this.email +'</td>' +
+                '<td>' + 
+                    "Add as: <div style='margin-right:1em' data-type='billing' "+ "data-name='"+this.first_name+" " + this.last_name +"' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>billing</a></div>" +
+                    "<div data-type='direct' "+"data-name='"+this.first_name+" " + this.last_name + "' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>direct</a></div>" +
+                '<td>' + 
+              '</tr>';
+            });  
+            console.log(tableBody);
 			$('.loader').hide();
+            $("#edit-contacts-table tbody").html(tableBody);
+            $("#edit-contacts-table").dataTable().fnDraw();
 			$('#results-container').fadeIn();
             $('#edit-contacts-table-container').fadeIn();
 		}
@@ -153,9 +160,10 @@ $(document).on('click','.view-edit-contact', function(){
 	});
 });
 
-//handled for clicking add new contact
+//handler for clicking add new contact
 $('#edit-append-contact').click(function(){
-	var valid = true;
+	var type = ($('#edit_billing_contact-yes').prop('checked') ? 'billing' : 'direct');
+    var valid = true;
 	$('.edit-contact-input').each(function(){
 		if($(this).attr('name') != "street2" && $(this).val() == ""){
 			$(this).css('outline-color', 'red');
@@ -170,26 +178,34 @@ $('#edit-append-contact').click(function(){
 			type: 'post',
 			dataType:'json',
 			url: 'index.php?page=add-contact-new',
-			data: $('#edit_contact_form').serialize() + "&employer_id=" + $('#edit_emp_id').val(),
+			data: $('#edit_contact_form').serialize() + "&employer_id=" + $('#edit_emp_id').val() + '&type=' + type,
 			success: function(data){
-				if($('#edit_billing_contact-yes').prop('checked')){
-					selectorPrefix = "billing";
-				}
-				else{
-					selectorPrefix = "direct";
-				}
-				//loop through contacts, if the contact isn' appended to the list, append it
-				$.each(data, function(){
-					if(!($('span[data-contact-id = "'+this.id+'"]').length > 0))
-					$('#'+selectorPrefix+'-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
-		        		"<div data-type='"+selectorPrefix+"' data-contact-id='"+this.id+"' class='view-edit-contact'><i class='icon-eye' title='view details'></i></div><div data-type='"+selectorPrefix+"' data-contact-id='"+this.id+"' class='remove-contacts'><i class='icon-cancel remove-contact' title='unassign contact'></i></div>"+"</li>");
-				});
-				$('#edit-back-to-contact-main').click();
+                updateContactList(data, type);
                 showMessage('Contact saved successfully.');
 			}
 		});
 	}
 });
+
+//handler for clicking billing or direct on existing contact table
+$(document).on('click', '.add-existing-contact', function(){
+    var type = $(this).attr('data-type');
+    var confirmAdd = confirm('Do you wish to add '+$(this).attr('data-name')+' as a ' + type + ' contact?');
+    if(confirm){
+        $.ajax({
+            type:'post',
+            dataType: 'json',
+            url: 'index.php?page=add-contact-existing',
+            data: 'employer_id='+ $('#edit_emp_id').val() +'&contact_id=' + $(this).attr('data-id')  + '&type=' + type,
+            success: function(data){
+                updateContactList(data, type);
+                showMessage('Contact saved successfully.');
+                $('#back-to-contact-main').click();
+            }
+        });
+    }
+});
+
 
 //handler for buttonset toggling
 $('.buttonset input').click(function(){
@@ -236,6 +252,7 @@ $('.edit-contact-input').blur(function(){
 						$('span[data-contact-id="'+$('#edit_contact_id').val()+'"]').html($('#edit_contact_first_name').val()+ ' ' +$('#edit_contact_last_name').val());
 					}
 					showMessage('Contact changes saved successfully.');
+
 				}
 			}
 		});
@@ -304,20 +321,6 @@ $(document).on('click', '.remove-contacts', function(){
 	}
 });
 
-$(document).on('click', '.add-existing-contact', function(){
-    var confirmAdd = confirm('Do you wish to add '+$(this).attr('data-name')+' as a ' + $(this).attr('data-type') + ' contact?');
-    if(confirm){
-        $.ajax({
-            type:'post',
-            url: 'index.php?page=add-contact-existing',
-            data: 'employer_id='+ $('#edit_emp_id').val() +'&id=' + $(this).attr('data-id')  + '&type=' + $(this).attr('data-type'),
-            success: function(){
-                showMessage('contact unassigned successfully.');
-            }
-        });
-    }
-});
-
 function showMessage(message) {
     $('.success-message').text(message);
     $('.success-message').animate({top: '8px', opacity: '1.0'}, 300, 'easeOutCubic').delay(1000).animate({top: '-35px', opacity: '0.0'}, 300, 'easeOutCubic');
@@ -362,3 +365,12 @@ function populateEditForm(data){
 	}
 	$('#employer-title').html(data['emp_info'][0].org_name_en);
 }
+
+function updateContactList(data, type){
+    $('#'+type+'-contacts-list').empty();
+    //create new list of contacts
+    $.each(data, function(){
+        $('#'+type+'-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
+            "<div data-type='"+type+"' data-contact-id='"+this.id+"' class='view-edit-contact'>View </div><span id='divider'>|</span><div data-type='"+type+"' data-contact-id='"+this.id+"' class='remove-contacts'>Delete</div>"+"</li>");
+    });
+}    

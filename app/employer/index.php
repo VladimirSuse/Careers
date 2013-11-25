@@ -10,7 +10,7 @@ ini_set('display_errors', '1');
 require_once '../../includes/Employer.php';
 $employer = new Employer();
 
-$actions = array('add-employer', 'contact-list', 'view-edit', 'get-direct-contacts', 'get-billing-contacts', 'remove-contact', 'add-contact-new', 'add-contact-new', 'view-edit-contact', 'edit-contact-details', 'edit-employer-details', 'swap-contact-type');
+$actions = array('add-employer', 'contact-list', 'view-edit', 'get-direct-contacts', 'get-billing-contacts', 'remove-contact', 'add-contact-new', 'add-contact-new', 'add-contact-existing', 'view-edit-contact', 'edit-contact-details', 'edit-employer-details', 'swap-contact-type');
 $page_title = 'Employers';
 $icon = 'icon-user';
 $js_path = 'employer.js';
@@ -31,7 +31,7 @@ if (!isset($_GET['page'])) {
     require_once 'view.php';
 }
 else if($_GET['page'] === 'contact-list'){
-	echo json_encode(array('dir_contacts' => $employer -> getDirectContact(), 'bil_contacts' => $employer -> getBillingContact()));
+	echo json_encode($employer -> getUnusedContact($_POST['employer_id']));
 } 
 else if($_GET['page'] === 'add-employer'){
 	$emp = array();
@@ -56,9 +56,9 @@ else if ($_GET['page'] === 'remove-contact'){
 }
 else if ($_GET['page'] === 'add-contact-new'){
 	$empId= $_POST['employer_id'];
-	$contactType = $_POST['billing_contact'];
-	unset($_POST['id'],$_POST['employer_id'], $_POST['billing_contact']);
-	if($contactType == 1){
+	$contactType = $_POST['type'];
+	unset($_POST['id'],$_POST['employer_id'], $_POST['billing_contact'], $_POST['type']);
+	if($contactType == 'billing'){
 		$id = $employer -> saveBillingContact($_POST, $empId);
 	}
 	else{
@@ -74,7 +74,15 @@ else if ($_GET['page'] === 'add-contact-new'){
 	}	
 }
 else if ($_GET['page'] === 'add-contact-existing'){
-
+	$id = $employer -> saveExistngContact($_POST['type'], $_POST['contact_id'], $_POST['employer_id']);
+	if(!is_null($id)){
+		if($_POST['type'] === 'billing'){
+			echo json_encode($employer -> getBillingContact($_POST['employer_id']));
+		}
+		else{
+			echo json_encode($employer -> getDirectContact($_POST['employer_id']));
+		}
+	}
 }
 else if ($_GET['page'] ==='view-edit-contact'){
 	echo json_encode($employer -> getContactDetail($_POST['id']));
