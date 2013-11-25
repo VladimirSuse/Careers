@@ -50,8 +50,7 @@ $('.edit-back-to-contact-main').click(function(){
 
 //handler for when the user clicks add an existing contact
 $('#edit-contact-table-show').click(function(){
-	var tableBody = '';
-    $('#edit-contact-details-container').hide();
+	$('#edit-contact-details-container').hide();
     $('.loader').show();
     $.ajax({
 		type: 'post',
@@ -59,32 +58,27 @@ $('#edit-contact-table-show').click(function(){
 		url: 'index.php?page=contact-list',
         data:'employer_id=' +$('#edit_emp_id').val(),
 		success: function(data){
+            $("#edit-contacts-table").dataTable().fnClearTable();
 			$.each(data, function() {
-        		tableBody += '<tr data-contact-id="'+this.id+'">' + 
-                '<td>'+
-                    '<p>' + this.first_name + ' ' + this.last_name + '</p>' +
-                    '<div data-id="' + this.id + '" style="display:none">'+
-                        '<p itemprop="' + this.street + '">' + this.street + '</p>'+
-                        '<p itemprop="' + this.street2 + '">' + this.street2 + '</p>'+
-                        '<p itemprop="' + this.postal_code + '">' + this.postal_code + '</p>'+
-                        '<p itemprop="' + this.city + '">' + this.city + '</p>'+
-                        '<p itemprop="' + this.province + '">' + this.province + '</p>'+
-                        '<p itemprop="' + this.country + '">' + this.country + '</p>'+
-                        '<p itemprop="' + this.phone + '">' + this.phone + '</p>'+
-                    '</div>'+
-                '</td>' +
-                '<td>' + this.phone + (this.extension !== '0' ? ' ext: '+this.extension : '') + '</td>'+
-                '<td>' + this.email +'</td>' +
-                '<td>' + 
-                    "Add as: <div style='margin-right:1em' data-type='billing' "+ "data-name='"+this.first_name+" " + this.last_name +"' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>billing</a></div>" +
-                    "<div data-type='direct' "+"data-name='"+this.first_name+" " + this.last_name + "' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>direct</a></div>" +
-                '<td>' + 
-              '</tr>';
-            });  
-            console.log(tableBody);
+        		$("#edit-contacts-table").dataTable().fnAddData([
+            		'<p>' + this.first_name + ' ' + this.last_name + '</p>' +
+            		'<div data-id="' + this.id + '" style="display:none">'+
+                		'<p itemprop="' + this.street + '">' + this.street + '</p>'+
+                		'<p itemprop="' + this.street2 + '">' + this.street2 + '</p>'+
+                		'<p itemprop="' + this.postal_code + '">' + this.postal_code + '</p>'+
+                		'<p itemprop="' + this.city + '">' + this.city + '</p>'+
+                		'<p itemprop="' + this.province + '">' + this.province + '</p>'+
+                		'<p itemprop="' + this.country + '">' + this.country + '</p>'+
+                		'<p itemprop="' + this.phone + '">' + this.phone + '</p>'+
+            		'</div>',
+                    this.phone + (this.extension !== null ? ' ext: '+this.extension : ''),
+            		this.email,
+            		"Add as: <div style='margin-right:1em' data-type='billing' "+ "data-name='"+this.first_name+" " + this.last_name +"' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>billing</a></div>"+
+                    "<div data-type='direct' "+"data-name='"+this.first_name+" " + this.last_name + "' data-id='"+this.id+"'"+" class='metro primary table-button add-existing-contact entypo small btn'><a>direct</a></div>"
+        		]);
+        		$('tr:has(div[data-id="' + this.id + '"])').attr('data_contact_id', this.id);   
+    		});
 			$('.loader').hide();
-            $("#edit-contacts-table tbody").html(tableBody);
-            $("#edit-contacts-table").dataTable().fnDraw();
 			$('#results-container').fadeIn();
             $('#edit-contacts-table-container').fadeIn();
 		}
