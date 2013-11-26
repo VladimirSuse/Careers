@@ -10,7 +10,7 @@ ini_set('display_errors', '1');
 require_once '../../includes/Employer.php';
 $employer = new Employer();
 
-$actions = array('add-employer', 'contact-list', 'view-edit', 'get-direct-contacts', 'get-billing-contacts', 'remove-contact', 'add-contact-new', 'add-contact-new', 'add-contact-existing', 'view-edit-contact', 'edit-contact-details', 'edit-employer-details', 'swap-contact-type');
+$actions = array('add-employer', 'contact-list', 'view-edit', 'get-direct-contacts', 'get-billing-contacts', 'remove-contact', 'add-contact-new', 'add-contact-new', 'add-contact-existing', 'view-edit-contact', 'edit-contact-details', 'edit-employer-details', 'swap-contact-type', 'view-edit-events');
 $page_title = 'Employers';
 $icon = 'icon-user';
 $js_path = 'employer.js';
@@ -92,10 +92,15 @@ else if ($_GET['page'] === 'edit-contact-details'){
 }
 else if ($_GET['page'] === 'swap-contact-type'){
 	if($_POST['billing_contact'] == 1){
-
+		$employer -> removeDirectContact($_POST['contact_id']);
+		$id = $employer -> saveExistngContact('billing', $_POST['contact_id'], $_POST['employer_id']);
 	}
 	else{
-
+		$employer -> removeBillingContact($_POST['contact_id']);
+		$id = $employer -> saveExistngContact('direct', $_POST['contact_id'], $_POST['employer_id']);
+	}
+	if(!is_null($id)){
+		echo json_encode(array('bil_contacts'=> $employer -> getBillingContact($_POST['employer_id']) , 'dir_contacts'=> $employer -> getDirectContact($_POST['employer_id'])));
 	}
 }
 else if ($_GET['page'] === 'edit-employer-details'){
@@ -111,6 +116,9 @@ else if($_GET['page'] === 'view-edit'){
 							'all_dir_contacts'  => $employer -> getDirectContact(),
 							'all_bil_contacts' => $employer -> getBillingContact()
 							));
+}
+else if($_GET['page'] === 'view-edit-events'){
+	echo json_encode($employer -> getEventRegistrationEmployer($_POST['employer_id']));
 }
 else {
     require_once '../../includes/php/error.php';

@@ -6,14 +6,7 @@ $(document).ready(function(){
 	//initalize employer table
 	initEmployerTable();
 	//initailize contact table 
-	$('#edit-contacts-table').dataTable({
-		"iDisplayLength": 10,
-        "aaSorting": [[0, "asc"]],
-        "aoColumnDefs": [{
-            "bSortable": false,
-            "aTargets": [1,2]
-        }]
-	});
+    initContactTable();
     $('.loader').hide();
 	$('#emp-table-container').fadeIn();
 });
@@ -130,6 +123,23 @@ $(document).on('click', '.view-edit', function(){
     });
 });
 
+//handler for when the user clicks the edit button
+$(document).on('click', '.view-edit-events', function(){
+    $.ajax({
+        type: 'post',
+        dataType: 'json',
+        url: 'index.php?page=view-edit-events',
+        data: 'employer_id=' + $(this).attr('data-emp-id'),
+        success: function(data){
+            populateEventRegistrations(data);
+            $('.topmenu').hide();
+            $('.component').hide();
+            $('#event-registrations-container').fadeIn();
+            $('#back-to-table').fadeIn();
+        }
+    });
+});
+
 //handler for when the user clciks the view button for a contact
 $(document).on('click','.view-edit-contact', function(){
 	var type = $(this).attr('data-type');
@@ -203,16 +213,19 @@ $(document).on('click', '.add-existing-contact', function(){
 
 //handler for buttonset toggling
 $('.buttonset input').click(function(){
-	 if($(this).attr('name') == 'billing_contact'){
-		// $.ajax({
-		// 	type:'post',
-		// 	url:'index.php?page=swap-contact-type',
-		// 	data: + '' + '&career_employer_id' + $('#edit_emp_id').val(),
-		// 	success: function(){
-		// 		$('#edit_emp_id').attr('data-edited', 1);
-		// 		showMessage('Employer changes saved successfully.');
-		// 	}
-		// });
+	 if($(this).attr('name') === 'billing_contact'){
+		$.ajax({
+			type: 'post',
+            dataType:'json',
+			url: 'index.php?page=swap-contact-type',
+			data: 'billing_contact=' + $(this).val() +'&contact_id=' + $('#edit_contact_id').val() + '&employer_id=' + $('#edit_emp_id').val(),
+			success: function(data){
+				$('#edit_emp_id').attr('data-edited', 1);
+                updateContactList(data['bil_contacts'], 'billing');
+                updateContactList(data['dir_contacts'], 'direct');
+				showMessage('Employer changes saved successfully.');
+			}
+		});
 	}
 	else{
 		if($(this).attr('id').indexOf('edit') >= 0){
@@ -331,6 +344,17 @@ function initEmployerTable(){
 	});
 }
 
+function initContactTable(){
+    $('#edit-contacts-table').dataTable({
+        "iDisplayLength": 10,
+        "aaSorting": [[0, "asc"]],
+        "aoColumnDefs": [{
+            "bSortable": false,
+            "aTargets": [1,2]
+        }]
+    });
+}
+
 function populateEditForm(data){
 	//populate text input fields
 	$('.edit-emp-input').each(function(){
@@ -360,11 +384,17 @@ function populateEditForm(data){
 	$('#employer-title').html(data['emp_info'][0].org_name_en);
 }
 
+function populateEventRegistrations(data){
+
+}
+
 function updateContactList(data, type){
     $('#'+type+'-contacts-list').empty();
     //create new list of contacts
-    $.each(data, function(){
-        $('#'+type+'-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
-            "<div data-type='"+type+"' data-contact-id='"+this.id+"' class='view-edit-contact'>View </div><span id='divider'>|</span><div data-type='"+type+"' data-contact-id='"+this.id+"' class='remove-contacts'>Delete</div>"+"</li>");
-    });
-}    
+    if(data.length > 0){
+        $.each(data, function(){
+            $('#'+type+'-contacts-list').append("<li class='contact-card'><div data-contact-id='"+this.id+"' >" +this.first_name + " " + this.last_name + "</div>"+ "<div>" + this.phone + "</div>" + "<div>" + this.email + "</div>" +
+                "<div data-type='"+type+"' data-contact-id='"+this.id+"' class='view-edit-contact'>View </div><span id='divider'>|</span><div data-type='"+type+"' data-contact-id='"+this.id+"' class='remove-contacts'>Delete</div>"+"</li>");
+        });
+    }
+}

@@ -22,4 +22,9 @@
             <?php require "components/edit-form.php" ?>
         </div>
     </div>
+    <div class='row component' id="event-registrations-container" style="display:none">
+        <div class="twenty columns panel">
+            <?php require "components/event-registrations.php" ?>
+        </div>
+    </div>
 </div>    

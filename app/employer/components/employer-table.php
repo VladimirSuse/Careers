@@ -19,7 +19,7 @@
 							<td>".($d['hst_exempt'] == 1 ? "<i class='icon-check tax-yes' title='.icon-check'></i>" : "<i class='icon-cancel tax-no' title='.icon-cancel'></i>" )."</td>
 							<td>".($d['pst_exempt'] == 1 ? "<i class='icon-check tax-yes' title='.icon-check'></i>" : "<i class='icon-cancel tax-no' title='.icon-cancel'></i>" )."</td>
 							<td>
-								<div data-emp-id='".$d['id']."' class='table-button fairs-button icon-left icon-calendar entypo metro primary small btn'><a>Events</a></div>
+								<div data-emp-id='".$d['id']."' class='table-button fairs-button icon-left icon-calendar entypo view-edit-events metro primary small btn'><a>Events</a></div>
 								<div data-emp-id='".$d['id']."' class='table-button fairs-button icon-left icon-pencil entypo view-edit metro primary small btn'><a>Edit</a></div>
 							</td>
 						  </tr>";
