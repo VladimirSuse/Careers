@@ -123,23 +123,6 @@ $(document).on('click', '.view-edit', function(){
     });
 });
 
-//handler for when the user clicks the edit button
-$(document).on('click', '.view-edit-events', function(){
-    $.ajax({
-        type: 'post',
-        dataType: 'json',
-        url: 'index.php?page=view-edit-events',
-        data: 'employer_id=' + $(this).attr('data-emp-id'),
-        success: function(data){
-            populateEventRegistrations(data);
-            $('.topmenu').hide();
-            $('.component').hide();
-            $('#event-registrations-container').fadeIn();
-            $('#back-to-table').fadeIn();
-        }
-    });
-});
-
 //handler for when the user clciks the view button for a contact
 $(document).on('click','.view-edit-contact', function(){
 	var type = $(this).attr('data-type');
