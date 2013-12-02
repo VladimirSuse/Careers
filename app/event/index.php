@@ -11,6 +11,7 @@ ini_set('display_errors', '1');
 require_once '../../includes/Employer.php';
 $employer = new Employer();
 
+$actions = array('add');
 $page_title = 'Events';
 $icon = "icon-user";
 $js_path = "event.js";
@@ -18,7 +19,7 @@ $js_path = "event.js";
 //============================================================================================
 // Header and Nav
 //============================================================================================
-if($_GET['page'] != 'add'){
+if(!in_array($_GET['page'], $actions, true)){
 	 require_once '../../includes/header.php';
 	 require_once '../../includes/nav.php';
 }
@@ -29,7 +30,8 @@ if($_GET['page'] != 'add'){
 //============================================================================================
 
 if (!isset($_GET['page'])) {
-    $data = $employer -> getEventRegistrationEmployer();
+    $data = $employer -> getEvent();
+    $services = $employer -> getService();
     require_once 'view.php';
 } 
 else {
@@ -39,6 +41,6 @@ else {
 //============================================================================================
 // FOOTER
 //============================================================================================
-if($_GET['page'] != 'add'){
+if(!in_array($_GET['page'], $actions, true)){
 	 require_once '../../includes/footer.php';
 }
