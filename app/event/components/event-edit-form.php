@@ -5,6 +5,9 @@
             <div class="event-step" id="edit-add-event-title">Event Details</div>
             <form id="event_edit_form" action="post">
                 <div class="row">
+                    <input type="hidden" class="event-edit-input" data-edited='0' id="edit_event_id" name="id">
+                </div>
+                <div class="row">
                     <div class="seven columns labels">
                         <label for="event_name_en">Name (En)</label>
                     </div>
@@ -89,7 +92,7 @@
                         <label for="description_en">Description (En)</label>
                     </div>
                     <div class="thirteen columns">  
-                        <textarea class="event-edit-input editable" name="edescription_en" id="edit_description_en"></textarea>
+                        <textarea class="event-edit-input editable" name="description_en" id="edit_event_description_en"></textarea>
                     </div>  
                 </div>
                 <div class="row">
@@ -97,11 +100,10 @@
                         <label for="description_fr">Description (Fr)</label>
                     </div>
                     <div class="thirteen columns">  
-                        <textarea class="event-edit-input editable" name="description_fr" id="edit_description_fr"></textarea>
+                        <textarea class="event-edit-input editable" name="description_fr" id="edit_event_description_fr"></textarea>
                     </div>  
                 </div>            
             </form>
-
             <form id="event_new_services_form">
                 <div class="row">
                         <div class="seven columns labels">

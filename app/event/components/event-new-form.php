@@ -111,8 +111,8 @@
                             <?php
                                 foreach($services as $service){
                                     echo  "<div class='buttonset' style='display:inline-block;margin-right:1em'>".
-                                                "<input type='checkbox' id='".$service['name_en'].$service['id']."' value='".$service['id']."' name='".$service['name_en']."'>".
-                                                "<label style='width:10em' for='".$service['name_en'].$service['id']."'>".$service['name_en']."</label>".
+                                                "<input type='checkbox' id='service".$service['id']."' value='".$service['id']."' name='".$service['name_en']."'>".
+                                                "<label style='width:12em' for='service".$service['id']."'>".$service['name_en']."</label>".
                                           "</div>";  
                                 }
                             ?>

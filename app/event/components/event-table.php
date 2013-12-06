@@ -21,7 +21,7 @@
 							<td><div>".date('M d, Y @ G:i', strtotime($d['start_date']))."</div></td>
 					        <td><div> ".date('M d, Y @ G:i', strtotime($d['end_date']))."</div></td>
 							<td>
-								<div data-emp-id='".$d['id']."' class='table-button fairs-button icon-left icon-pencil entypo view-edit metro primary small btn'><a>View/Edit</a></div>
+								<div data-event-id='".$d['id']."' class='table-button fairs-button icon-left icon-pencil entypo view-edit metro primary small btn'><a>View/Edit</a></div>
 							</td>
 						  </tr>";
 				}

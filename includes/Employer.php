@@ -218,6 +218,15 @@ class Employer extends SyncObject{
 		return $this->mysql_binding_update($data, 'career_employer_event_services');
 	}
 
+	/*
+	*	Delete a service registration to an event
+	* @param int $id an id represent the event id
+	*	@return a boolean true on success, else error message
+	*/
+	public function removeEventService($id){
+		return $this->mysql_query("DELETE FROM career_employer_event_services WHERE career_employer_event_id = $id");
+	}
+
 	/**
 	*	Get event invoice with event registration, event and service info
 	*	@param int $id an id represent career employer
